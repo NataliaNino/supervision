@@ -27,7 +27,8 @@ function onPhotoDataSuccess(imageData) {
     console.log("* * * onPhotoDataSuccess");
     var image = document.getElementById('cameraImage');
     image.style.display = 'block';
-    image.src = "data:image/jpeg;base64," + imageData;
+    image.src = "data:image/jpeg;base64," + imageData;				//alert(imageData);
+    imagenfo = imageData;
 }
 
 function onPhotoURISuccess(imageURI) {
@@ -36,7 +37,7 @@ function onPhotoURISuccess(imageURI) {
     // console.log(imageURI);
     var image = document.getElementById('cameraImage');
     image.style.display = 'block';
-    image.src = imageURI;
+    image.src = imageURI;									//alert(imageURI);
 }
 
 function take_pic() {

@@ -8,6 +8,7 @@
  var id_constructor = sessionStorage.getItem("id_constructor");
  var id_usuario = sessionStorage.getItem("id");
  var id_actividad;
+ var imagenfo;
  
  $("#n_constructor").html("<strong>Constructor: "+nombre_constructor+"</strong>");
  $("#n_tramo").html("<strong>Tramo: "+nombre_tramo+"</strong><br><br><br>");
@@ -63,14 +64,14 @@ function GuardarItems(){
 	db.transaction(GuardarItemsExe, errorCB);
 }
 function GuardarItemsExe(tx) {	//alert('Registro: '+fil+': '+arr_ListaTabla[fil]);				//alert('DROP TABLE IF EXISTS '+arr_ListaTabla[fil][0]+';');	//tx.executeSql('DROP TABLE IF EXISTS '+arr_ListaTabla[fil][0]);				//alert('CREATE TABLE IF NOT EXISTS '+arr_ListaTabla[fil][0]+' ('+arr_ListaTabla[fil][1]+')');	//alert('DROP TABLE IF EXISTS control_de_pendientes');
-	//tx.executeSql('DROP TABLE IF EXISTS control_hallazgos');
+	tx.executeSql('DROP TABLE IF EXISTS control_hallazgos');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS control_hallazgos ("id" CHAR,"id_item" CHAR,"tramo" CHAR,"constructor" CHAR, "usuario" CHAR, "usuario_cierre" CHAR, "fecha_registro" CHAR ,"fecha_cierre" CHAR ,"foto_registro" CHAR ,"foto_cierre" CHAR ,"registro_longitud" CHAR,"registro_latitud" CHAR,"registro_exactitud" CHAR,"cierre_longitud" CHAR ,"cierre_latitud" CHAR ,"estado" CHAR ,"observacion" CHAR,"observacion_cierre" CHAR)');			/*	//tx.executeSql('DROP TABLE IF EXISTS control_de_actividads');//alert('DROP TABLE IF EXISTS control_de_pendientes');	tx.executeSql('CREATE TABLE IF NOT EXISTS control_de_pendientes ("id" CHAR ,"tramo" CHAR ,"constructor" CHAR ,"usuario" CHAR ,"tipo_pendiente" CHAR ,"fecha_registro" CHAR ,"fecha_cierre" CHAR ,"foto_registro" CHAR ,"foto_cierre" CHAR ,"registro_longitud" CHAR ,"registro_latitud" CHAR ,"cierre_longitud" CHAR ,"cierre_latitud" CHAR ,"estado" CHAR ,"observacion" CHAR,"observacion_cierre" CHAR )'); */
 	var now = new Date();
 	var fecha_captura = now.getFullYear()+'-'+now.getMonth()+'-'+now.getDate()+' '+now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
 	var id_unico = fecha_captura+'-'+id_tramo+'-'+id_constructor;	//alert(id_unico);	//2001-09-28 01:00:00
 	var id_item = $("#items").val();
 	var observacion = $("#observacion_pen").val();				//alert('INSERT INTO control_de_pendientes (id,tramo,constructor,usuario,tipo_pendiente,fecha_registro,estado,observacion) values ("'+id_unico+'","'+id_tramo+'","'+id_constructor+'","'+id_usuario+'","'+tipo_pendiente+'","'+fecha_captura+'","ABIERTO","'+observacion+'")');
-	tx.executeSql('INSERT INTO control_hallazgos (id,tramo,constructor,usuario,id_item,fecha_registro,estado,observacion) values ("'+id_unico+'","'+id_tramo+'","'+id_constructor+'","'+id_usuario+'","'+id_item+'","'+fecha_captura+'","ABIERTO","'+observacion+'")');
+	tx.executeSql('INSERT INTO control_hallazgos (id,tramo,constructor,usuario,id_item,fecha_registro,estado,observacion,foto_registro) values ("'+id_unico+'","'+id_tramo+'","'+id_constructor+'","'+id_usuario+'","'+id_item+'","'+fecha_captura+'","ABIERTO","'+observacion+'","'+imagenfo+'")'); //
 	alert("Información almacenada exitosamente");			//alert("Editar el menu");
 	window.location = "Hallazgos.html"; 
 }
