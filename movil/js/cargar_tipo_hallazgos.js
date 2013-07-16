@@ -15,7 +15,9 @@
  
  var db = window.openDatabase("bdmovil", "1.0", "Proyecto Supervisión Azteca", 200000);
  
-
+$(window).load(function () {
+	getCurrentPosition();
+})
  function errorCB(err) {
 	// Esto se puede ir a un Log de Error dir�a el purista de la oficina, pero como este es un ejemplo pongo el MessageBox.Show :P
 	if (err.code != "undefined" && err.message != "undefined"){
@@ -70,13 +72,14 @@ function GuardarItemsExe(tx) {	//alert('Registro: '+fil+': '+arr_ListaTabla[fil]
 	var fecha_captura = now.getFullYear()+'-'+now.getMonth()+'-'+now.getDate()+' '+now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
 	var id_unico = fecha_captura+'-'+id_tramo+'-'+id_constructor;	//alert(id_unico);	//2001-09-28 01:00:00
 	var id_item = $("#items").val();
-	var observacion = $("#observacion_pen").val();				//alert('INSERT INTO control_de_pendientes (id,tramo,constructor,usuario,tipo_pendiente,fecha_registro,estado,observacion) values ("'+id_unico+'","'+id_tramo+'","'+id_constructor+'","'+id_usuario+'","'+tipo_pendiente+'","'+fecha_captura+'","ABIERTO","'+observacion+'")');
-	tx.executeSql('INSERT INTO control_hallazgos (id,tramo,constructor,usuario,id_item,fecha_registro,estado,observacion,foto_registro) values ("'+id_unico+'","'+id_tramo+'","'+id_constructor+'","'+id_usuario+'","'+id_item+'","'+fecha_captura+'","ABIERTO","'+observacion+'","'+imagenfo+'")'); //
+	var observacion = $("#observacion_pen").val();			//alert('INSERT INTO control_hallazgos (id,tramo,constructor,usuario,id_item,fecha_registro,estado,observacion,registro_latitud,registro_longitud,registro_exactitud,foto_registro) values ("'+id_unico+'","'+id_tramo+'","'+id_constructor+'","'+id_usuario+'","'+id_item+'","'+fecha_captura+'","ABIERTO","'+observacion+'","'+myLatitud+'","'+myLongitud+'","'+myPrecision+'","'+imagenfo+'")');
+	tx.executeSql('INSERT INTO control_hallazgos (id,tramo,constructor,usuario,id_item,fecha_registro,estado,observacion,registro_latitud,registro_longitud,registro_exactitud,foto_registro) values ("'+id_unico+'","'+id_tramo+'","'+id_constructor+'","'+id_usuario+'","'+id_item+'","'+fecha_captura+'","ABIERTO","'+observacion+'","'+myLatitud+'","'+myLongitud+'","'+myPrecision+'","'+imagenfo+'")'); //
 	alert("Información almacenada exitosamente");			//alert("Editar el menu");
 	window.location = "Hallazgos.html"; 
 }
 
 Cargar_lista();
+
 
 $(document).ready(function(){
 	$("#btn_guardar").click(function () {			//alert("li Click");

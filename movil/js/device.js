@@ -89,7 +89,7 @@ var onDeviceReady = function() {
 function init() {
     document.addEventListener("deviceready", onDeviceReady, true);
 
-    document.getElementById('api-intro').style.display = 'block';
+   // document.getElementById('api-intro').style.display = 'block';
     
     var showApi = function(e) {
         var apiId = this.id;
@@ -107,7 +107,7 @@ function init() {
         apiList[i].addEventListener('click', showApi, false);
     }
 
-    var $select = document.getElementById('subheader').getElementsByTagName('select')[0];
+    /*var $select = document.getElementById('subheader').getElementsByTagName('select')[0];
     if ($select) {
         $select.addEventListener('change', function(e) {
             var api = this.options[this.selectedIndex].value;
@@ -120,5 +120,5 @@ function init() {
             document.getElementById('api-' + api).style.display = 'block';
             
         }, false);
-    } else { alert("no select here"); }
+    } else { alert("no select here"); }*/
 }

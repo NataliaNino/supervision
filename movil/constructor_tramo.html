@@ -19,13 +19,17 @@
 	<script type="text/javascript" charset="utf-8" src="phonegap-1.4.1.js"></script>		<!--<script type="text/javascript" charset="utf-8" src="cordova-2.1.0.js"></script>		-->
 	<script src="js/bdactualizar_parametros.js"></script>
 	<script src="js/actualizar_parametros.js"></script>
+	
 </head>
-<body>
+<body onload="toggleWatchPosition();">
 	<!-- <label for="constructor" class="select">Constructor:</label> -->
 	<br><br><br>
 	Seleccione Tramo - Constructor:<br>
 	<select name="constructor" id="constructor" data-native-menu="true"> </select><br>
-	<br><br>
+	<br><div class="result-block">
+	   					<span id="cur_position"></span>
+	   				</div>
 	<a data-role="button" data-icon="arrow-r" data-iconpos="right" id="btn_ingresar">Ingresar</a>
 	<script src="js/cargar_tramo_constructor.js"></script>
+	<script src="js/geolocalizar_ini.js"> </script>
 </body>

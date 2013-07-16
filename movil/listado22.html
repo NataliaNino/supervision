@@ -32,7 +32,9 @@
 					Seleccione el hallazgo:<br>
 					<select name="items" id="items" data-native-menu="true"> </select><br>
 					<label for="observacion_pen">Observaci&oacute;n:</label><textarea name="observacion_pen" id="observacion_pen" width="80%" required></textarea><br/>
+					<div class="result-block"> <span id="cur_position"></span></div>
 					<a data-role="button" data-icon="arrow-r" data-iconpos="right" id="btn_guardar">Guardar</a>
+					
 					
 	
 	<div id="sidebar">
@@ -41,12 +43,13 @@
 	</div><!-- /sidebar -->
 	<div id="scrollable">
         <div id="content">                
-
+		
 		    <div class="api-div" id="api-camera"><br>
 				<a data-role="button" data-icon="arrow-r" data-iconpos="right" class="btn deux" onclick="take_pic();">Tomar Foto</a>
-				<a data-role="button" data-icon="arrow-r" data-iconpos="right" class="btn deux" onclick="album_pic();">Seleccionar de Galer&iacute;a</a>
-				<div class="result-block"></div>			
+				<!--a data-role="button" data-icon="arrow-r" data-iconpos="right" class="btn deux" onclick="album_pic();">Seleccionar de Galer&iacute;a</a-->
+				<div class="result-block"> </div>			
       			<img id="cameraImage" src="" width="320" height="210" align="center"/>
+				
 			</div>
 
 		    <div class="api-div" id="api-device">
@@ -115,6 +118,8 @@
 		<script src="js/cargar_tipo_hallazgos.js"></script>
 	 	<script type="text/javascript" charset="utf-8" src="js/camera.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/device.js"></script>
-		<script type="text/javascript" charset="utf-8" src="js/events.js"></script>		
+		<script type="text/javascript" charset="utf-8" src="js/events.js"></script>	
+		<script src="js/geolocalizar_ini.js"></script>	
+		
     </body>
 </html>
