@@ -3,6 +3,11 @@ var myLongitud;
 var myPrecision;
 var  watchID = null;
 // api-geolocation
+
+$(window).load(function () {
+	getCurrentPosition();
+})
+
 var getCurrentPosition = function() {
 			
     var success = function(pos) {
@@ -10,7 +15,7 @@ var getCurrentPosition = function() {
 		 myLongitud = pos.coords.longitude;
 		 myPrecision = pos.coords.accuracy;		 
          //text = "<div>Latitude: " + myLatitud + "<br/>" + "Longitude: " + myLongitud + "<br/>" + "Accuracy: " + myPrecision + " m<br/>" + "</div>";
-         text = "<div>Latitud: " + myLatitud + "&nbsp;&nbsp;&nbsp;" + "Longitud: " + myLongitud + "<br/>" + "Precisi&oacute;n: " + myPrecision + " m &nbsp;&nbsp;&nbsp; Fecha: "+ new Date(pos.timestamp)+" <br/>" + "</div>";
+         text = "<div>Latitud: " + myLatitud + "<br/>" + "Longitud: " + myLongitud + "<br/>" + "Precisi&oacute;n: " + myPrecision + " m <br/>Fecha: "+ new Date(pos.timestamp)+" <br/>" + "</div>";
         document.getElementById('cur_position').innerHTML = text;
 
     };

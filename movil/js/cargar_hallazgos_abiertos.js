@@ -20,12 +20,17 @@ function errorCB(err) {
    	}
 }
 
+function error_tabla(err) {
+		alert("NO hay Hallazgos por cerrar");
+		window.location = "Tendido.html";
+}
+
 function successCB() {
     //alert("TRANSACION Ok!");
 }
 
 function ConsultaItems(tx) {	//alert('SELECT * FROM control_hallazgos cp inner join actividades_hallazgos tp on cp.id_item = tp.id_item where tramo = '+id_tramo+' and constructor = '+id_constructor+' and estado like "ABIERTO%" order by id');
-	tx.executeSql('SELECT * FROM control_hallazgos cp inner join actividades_hallazgos tp on cp.id_item = tp.id_item where tramo = '+id_tramo+' and constructor = '+id_constructor+' and estado like "ABIERTO%" order by id', [], ConsultaItemsCarga);
+	tx.executeSql('SELECT * FROM control_hallazgos cp inner join actividades_hallazgos tp on cp.id_item = tp.id_item where tramo = '+id_tramo+' and constructor = '+id_constructor+' and estado like "ABIERTO%" order by id', [], ConsultaItemsCarga,error_tabla);
 }
 function ConsultaItemsCarga(tx, results) {
     var len = results.rows.length;
@@ -50,9 +55,8 @@ function GuardarItemsExe(tx) {	//alert('Registro: '+fil+': '+arr_ListaTabla[fil]
 	var now = new Date();
 	var fecha_captura = now.getFullYear()+'-'+now.getMonth()+'-'+now.getDate()+' '+now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
 	var id_item = $("#Pendiente").val();
-	var observacion = $("#observacion_pen").val();
-//	alert('UPDATE control_de_pendientes  set estado = "CERRADO",fecha_ciere="'+fecha_captura+'",observacion_cierre = "'+observacion+'" where id= "'+id_pendiente+'"');
-	tx.executeSql('UPDATE control_hallazgos set estado = "CERRADO",fecha_cierre="'+fecha_captura+'",observacion_cierre = "'+observacion+'",usuario_cierre = "'+id_usuario+'" where id= "'+id_item+'"');
+	var observacion = $("#observacion_pen").val();			//	alert('UPDATE control_de_pendientes  set estado = "CERRADO",fecha_ciere="'+fecha_captura+'",observacion_cierre = "'+observacion+'" where id= "'+id_pendiente+'"');
+	tx.executeSql('UPDATE control_hallazgos set estado = "CERRADO",usuario_cierre = "'+id_usuario+'",fecha_cierre="'+fecha_captura+'",foto_cierre="'+imagenfo+'",cierre_longitud="'+myLongitud+'",cierre_latitud="'+myLatitud+'",cierre_exactitud="'+myPrecision+'",observacion_cierre = "'+observacion+'" where id= "'+id_item+'"');
 	alert("Información almacenada exitosamente");			//alert("Editar el menu");
 	window.location = "Tendido.html";
 }

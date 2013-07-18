@@ -19,7 +19,8 @@
 
 
 var pictureSource;   // picture source
-var destinationType; // sets the format of returned value 
+var destinationType; // sets the format of returned value
+var imagenfo; 
 // See the above in device.js for their assignments
 
 // api-camera

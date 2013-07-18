@@ -13,8 +13,9 @@ var db = window.openDatabase("bdmovil", "1.0", "Proyecto Supervisión Azteca", 2
 function errorCB(err) {
 	// Esto se puede ir a un Log de Error dir�a el purista de la oficina, pero como este es un ejemplo pongo el MessageBox.Show :P
 	if (err.code === undefined || err.message == "undefined"){
-		alert("No hay información pendiente de envío");
-		window.location = "menu_principal.html";
+		alert("Error procesando SQL: Codigo: " + err.code + " Mensaje: "+err.message);
+		//alert("No hay Listas pendiente de envío");
+		//window.location = "menu_principal.html";
 	}else
 	{
 		alert("Error procesando SQL: Codigo: " + err.code + " Mensaje: "+err.message);		
@@ -80,16 +81,21 @@ function ConsultaSincronizarHallazgosCarga(tx, results) {
 		parametros['tramo'] = results.rows.item(i).tramo;
 		parametros['constructor'] = results.rows.item(i).constructor;
 		parametros['usuario'] = results.rows.item(i).usuario;
+		parametros['usuario_cierre'] = results.rows.item(i).usuario_cierre;
 		parametros['fecha_registro'] = results.rows.item(i).fecha_registro;
 		parametros['fecha_cierre'] = results.rows.item(i).fecha_cierre;
 		parametros['foto_registro'] = results.rows.item(i).foto_registro;			//alert(results.rows.item(i).foto_registro);
 		parametros['foto_cierre'] = results.rows.item(i).foto_cierre;
-		parametros['estado'] = results.rows.item(i).estado;
-		parametros['observacion'] = results.rows.item(i).observacion_cierre;
-		parametros['observacion_cierre'] = results.rows.item(i).observacion_cierre;
 		parametros['registro_longitud'] = results.rows.item(i).registro_longitud;
 		parametros['registro_latitud'] = results.rows.item(i).registro_latitud;
 		parametros['registro_exactitud'] = results.rows.item(i).registro_exactitud;
+		parametros['cierre_longitud'] = results.rows.item(i).cierre_longitud;
+		parametros['cierre_latitud'] = results.rows.item(i).cierre_latitud;
+		parametros['cierre_exactitud'] = results.rows.item(i).cierre_exactitud;
+		parametros['estado'] = results.rows.item(i).estado;
+		parametros['observacion'] = results.rows.item(i).observacion;
+		parametros['observacion_cierre'] = results.rows.item(i).observacion_cierre;
+
 		//alert(results.rows.item(i).registro_longitud);
 
 		var id_guardar = results.rows.item(i).id;
@@ -122,6 +128,67 @@ function ConsultaSincronizarHallazgosCarga(tx, results) {
 }
 
 
+//SINCRONIZAR PENDIENTES
+function ConsultaSincronizarPendientes(tx) {
+	tx.executeSql('SELECT * FROM control_hallazgos', [], ConsultaSincronizarHallazgosCarga,errorCB);
+}
+function ConsultaSincronizarPendientesCarga(tx, results) {
+	var len = results.rows.length;									//alert(len);
+	//if (len == 0) alert("No hay información pendiente de envío");
+	for (i = 0; i < len; i++){
+		var parametros = new Object();
+		parametros['tabla'] = 'control_de_pendientes';
+		parametros['id'] = results.rows.item(i).id;
+		parametros['tramo'] = results.rows.item(i).tramo;
+		parametros['constructor'] = results.rows.item(i).constructor;
+		parametros['usuario'] = results.rows.item(i).usuario;
+		parametros['tipo_pendiente'] = results.rows.item(i).tipo_pendiente;
+		parametros['fecha_registro'] = results.rows.item(i).fecha_registro;
+		parametros['fecha_cierre'] = results.rows.item(i).fecha_cierre;				//parametros['id_item'] = results.rows.item(i).id_item;
+		parametros['foto_registro'] = results.rows.item(i).foto_registro;			//alert(results.rows.item(i).foto_registro);
+		parametros['foto_cierre'] = results.rows.item(i).foto_cierre;
+		parametros['registro_longitud'] = results.rows.item(i).registro_longitud;	//alert(results.rows.item(i).registro_longitud);
+		parametros['registro_latitud'] = results.rows.item(i).registro_latitud;
+		parametros['registro_exactitud'] = results.rows.item(i).registro_exactitud;
+		parametros['cierre_longitud'] = results.rows.item(i).cierre_longitud;
+		parametros['cierre_latitud'] = results.rows.item(i).cierre_latitud;
+		parametros['cierre_exactitud'] = results.rows.item(i).cierre_exactitud;
+		parametros['estado'] = results.rows.item(i).estado;
+		parametros['observacion'] = results.rows.item(i).observacion;
+		parametros['observacion_cierre'] = results.rows.item(i).observacion_cierre;
+		
+		var id_guardar = results.rows.item(i).id;
+		var tipo_pendiente = results.rows.item(i).tipo_pendiente;
+		
+		$.ajax({
+			data:  parametros,
+			url:'http://200.21.69.126:8088/supervision_fibra_optica/servicios/sincronizar.php?',//url:'http://localhost:808/servicios/logueo.php?usr='+usr+'&pas='+pas,
+			type:  'post',
+			async: false,
+		    beforeSend: function () {
+		            $("#resultado").html("Procesando, espere por favor...");
+		    },
+			success: function(response){
+				$("#resultado").before(response);
+				db.transaction(function(tx) {
+				//var item_rta = response.trim();			//alert(item_rta);	//alert(id_guardar +'   ----   '+ response);	//alert(item_rta);
+		          //tx.executeSql('DELETE from control_hallazgos where id = "'+id_guardar+'" and id_item = "'+id_item+'"');
+		        });
+			},
+			error: function (error) {
+				$("#resultado").text('Error');
+		    }
+		})
+	
+   	}
+	alert("Sincronización Exitosa");
+	//window.location = "menu_principal.html";
+   	
+}
+
+
 // CARGAR MENU DE LA BASE DE DATOS
 db.transaction(ConsultaSincronizar);
 db.transaction(ConsultaSincronizarHallazgos);
+db.transaction(ConsultaSincronizarPendientes);
+

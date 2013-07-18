@@ -42,45 +42,96 @@ if ($_POST['tabla'] == "lista_chequeo"){				/*	echo "Tabla: ".$_POST['tabla']." 
 	$tramo = $_POST['tramo'];
 	$constructor = $_POST['constructor'];
 	$usuario = $_POST['usuario'];
+	$usuario_cierre = $_POST['usuario_cierre'];
 	$fecha_registro = $_POST['fecha_registro'];
 	$fecha_cierre = $_POST['fecha_cierre'];
+	$foto_registro = $_POST['foto_registro'];
+		if (isset($foto_registro)){
+			$decoded=base64_decode($foto_registro);
+			file_put_contents('fotos/Hallazgos_apertura.JPG',$decoded);
+		}
+	$foto_cierre = $_POST['foto_cierre'];
+		if (isset($foto_cierre)){
+			$decoded=base64_decode($foto_cierre);
+			file_put_contents('fotos/Hallazgos_cierre.JPG',$decoded);
+		}
+	$registro_longitud = $_POST['registro_longitud'];		if($registro_longitud == "") {$registro_longitud='null';}
+	$registro_latitud = $_POST['registro_latitud'];			if($registro_latitud == "") {$registro_latitud='null';}
+	$registro_exactitud = $_POST['registro_exactitud'];		if($registro_exactitud == "") {$registro_exactitud='null';}
+	$cierre_longitud = $_POST['cierre_longitud'];			if($cierre_longitud == "") {$cierre_longitud='null';}
+	$cierre_latitud = $_POST['cierre_latitud'];				if($cierre_latitud == "") {$cierre_latitud='null';}
+	$cierre_exactitud = $_POST['cierre_exactitud'];			if($cierre_exactitud == "") {$cierre_exactitud='null';}
+	$estado = $_POST['estado'];
 	$observacion = $_POST['observacion'];
 	$observacion_cierre = $_POST['observacion_cierre'];
-	$registro_longitud = $_POST['registro_longitud'];
-	$registro_latitud = $_POST['registro_latitud'];
-	$registro_exactitud = $_POST['registro_exactitud'];
-	$estado = $_POST['estado'];
-	$foto_registro = $_POST['foto_registro'];
-	$foto_cierre = $_POST['foto_cierre'];
-	$decoded=base64_decode($foto_registro);
-	file_put_contents('newImage.JPG',$decoded);
-	if($registro_longitud == "") {$registro_longitud='null';}
-	if($registro_latitud == "") {$registro_latitud='null';}
-	if($registro_exactitud == "") {$registro_exactitud='null';}
+
 	//VERIFICA SI EL HALLAZGO EXISTE
-	$query_sql2 = "select count(*) from control_hallazgos where id_envio like '$id_envio'"; 	
+	$query_sql2 = "select count(*) from control_hallazgos where id_envio like '$id_envio' and id_item like '$id_item'";
 	$resultado2 = pg_query($cx,$query_sql2) or die('No pudo conectarse ');
 	$arr_num_reg = pg_fetch_array($resultado2, 0, PGSQL_NUM);
 	$reg_encontrados =  $arr_num_reg[0];	
-	if ($reg_encontrados == 0){	//SI NO EXISTE EL HALLAZGO, CREA EL REGISTRO EN LA BASE DE DATOS
-	//echo $query_sql_add;
+	if ($reg_encontrados == 0){	//SI NO EXISTE EL HALLAZGO, CREA EL REGISTRO EN LA BASE DE DATOS			//echo $query_sql_add;
 		$query_sql_add = "insert into control_hallazgos (id_item,tramo,usuario,observacion,registro_longitud,registro_latitud,registro_exactitud,estado,id_envio,fecha_registro) values ('$id_item','$tramo','$usuario','$observacion',$registro_longitud,$registro_latitud,$registro_exactitud,'$estado','$id_envio','$fecha_registro')"; //echo "$query_sql<br>";	
 		pg_query($cx,$query_sql_add) or die('No pudo conectarse '); 
 		unset($query_sql_add);
 		pg_query($cx, "COMMIT;"); 
 	}
-	else{
-	//echo $query_sql_add;
+	else{				//echo $query_sql_add;
 		$query_sql_add = "update control_hallazgos fecha_cierre='$fecha_cierre', usuario_cierre='$usuario', observacion_cierre='$observacion_cierre', estado='$estado' where id_envio like '$id_envio'"; //echo "$query_sql<br>";		
 		pg_query($cx,$query_sql_add) or die('No pudo conectarse '); 
 		unset($query_sql_add);
 		pg_query($cx, "COMMIT;");
         echo $id_item;		
 	}
-	
 	pg_close($cx);
-	//file_put_contents('newImage.JPG',$foto_registro);
+}elseif ($_POST['tabla'] == "control_de_pendientes"){		//PENDIENTES	PENDIENTES	PENDIENTES	PENDIENTES	PENDIENTES	PENDIENTES	PENDIENTES
+	$id_envio = $_POST['id'];
+	$tipo_pendiente = $_POST['tipo_pendiente'];
+	$tramo = $_POST['tramo'];
+	$constructor = $_POST['constructor'];
+	$usuario = $_POST['usuario'];
+	$usuario_cierre = $_POST['usuario_cierre'];
+	$fecha_registro = $_POST['fecha_registro'];
+	$fecha_cierre = $_POST['fecha_cierre'];
+	$foto_registro = $_POST['foto_registro'];
+		if (isset($foto_registro)){
+			$decoded=base64_decode($foto_registro);
+			file_put_contents('fotos/Pendientes_apertura.JPG',$decoded);
+		}
+	$foto_cierre = $_POST['foto_cierre'];
+		if (isset($foto_cierre)){
+			$decoded=base64_decode($foto_cierre);
+			file_put_contents('fotos/Pendientes_cierre.JPG',$decoded);
+		}
+	$registro_longitud = $_POST['registro_longitud'];		if($registro_longitud == "") {$registro_longitud='null';}
+	$registro_latitud = $_POST['registro_latitud'];			if($registro_latitud == "") {$registro_latitud='null';}
+	$registro_exactitud = $_POST['registro_exactitud'];		if($registro_exactitud == "") {$registro_exactitud='null';}
+	$cierre_longitud = $_POST['cierre_longitud'];			if($cierre_longitud == "") {$cierre_longitud='null';}
+	$cierre_latitud = $_POST['cierre_latitud'];				if($cierre_latitud == "") {$cierre_latitud='null';}
+	$cierre_exactitud = $_POST['cierre_exactitud'];			if($cierre_exactitud == "") {$cierre_exactitud='null';}
+	$estado = $_POST['estado'];
+	$observacion = $_POST['observacion'];
+	$observacion_cierre = $_POST['observacion_cierre'];
 	
-	//echo $foto_registro;
+	
+	//VERIFICA SI EL HALLAZGO EXISTE
+	$query_sql2 = "select count(*) from control_de_pendientes where id_envio like '$id_envio' and tipo_pendiente like '$tipo_pendiente'"; 	
+	$resultado2 = pg_query($cx,$query_sql2) or die('No pudo conectarse ');
+	$arr_num_reg = pg_fetch_array($resultado2, 0, PGSQL_NUM);
+	$reg_encontrados =  $arr_num_reg[0];	
+	if ($reg_encontrados == 0){	//SI NO EXISTE EL HALLAZGO, CREA EL REGISTRO EN LA BASE DE DATOS			//echo $query_sql_add;
+		$query_sql_add = "insert into control_de_pendientes (tipo_pendiente,tramo,usuario,observacion,registro_longitud,registro_latitud,registro_exactitud,estado,id_envio,fecha_registro) values ('$tipo_pendiente','$tramo','$usuario','$observacion',$registro_longitud,$registro_latitud,$registro_exactitud,'$estado','$id_envio','$fecha_registro')"; //echo "$query_sql<br>";	
+		pg_query($cx,$query_sql_add) or die('No pudo conectarse '); 
+		unset($query_sql_add);
+		pg_query($cx, "COMMIT;"); 
+	}
+	else{				//echo $query_sql_add;
+		$query_sql_add = "update control_de_pendientes fecha_cierre='$fecha_cierre', usuario_cierre='$usuario', observacion_cierre='$observacion_cierre', estado='$estado' where id_envio like '$id_envio'"; //echo "$query_sql<br>";		
+		pg_query($cx,$query_sql_add) or die('No pudo conectarse '); 
+		unset($query_sql_add);
+		pg_query($cx, "COMMIT;");
+        echo $tipo_pendiente;		
+	}
+	pg_close($cx);
 }
 ?>

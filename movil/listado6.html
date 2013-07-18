@@ -18,7 +18,7 @@
 	<script src="js/jquery.min.js"></script>
 	<script type="text/javascript" charset="utf-8" src="phonegap-1.4.1.js"></script>		
 </head>
-    <body>
+    <body onload="init();">
         <div class="container">
 			<header>
 				<div id = "n_supervisor" align="right"></div>
@@ -26,6 +26,7 @@
 				<div id = "n_tramo" align="center"></div>
 			</header>
 			<section id="t_avance">
+			<div class="result-block">	<span id="cur_position"></span>	</div>
 				<div id="avance0" class="div_avance"> 
 					<legend> Se realiz&oacute; la instalaci&oacute;n de fibra &oacute;ptica de:</legend>
 					<input id="hilos0" type="number" min=0 onkeypress="if (event.keyCode< 48 || event.keyCode > 57) event.returnValue = false;" required />
@@ -41,22 +42,88 @@
 					<input id="supervisado0" type="number" min=0 onkeypress="if (event.keyCode< 48 || event.keyCode > 57) event.returnValue = false;" required/>
 					<label>Km Supervisados</label><br>
 					<input id="detallado0" type="number" min=0 onkeypress="if (event.keyCode< 48 || event.keyCode > 57) event.returnValue = false;" required/>
-					<label>Km Detallados</label>
-					<button class="button medium blue_small" id="adicionar">+</button>
-					<a class="button medium blue_small" onclick="take_pic();">C&aacute;mara</a>
-					<a class="button medium blue_small" onclick="getCurrentPosition();">Posici&oacute;n</a>
-	   				<div class="result-block">
-	   					<span id="cur_position"></span>
-	   				</div>
-	   				<img id="map" alt="Location Map"/>
+					<label>Km Detallados</label><br>	   				
 				</div>
+				
+				<div id="scrollable">
+    <div id="content">                
+	
+	    <div class="api-div" id="api-camera">
+			<button class="button medium blue" onclick="take_pic();">Capturar Fotograf&iacute;a</button>
+			<button class="button medium blue"id="guardar" >Guardar</button>
+			<!--a data-role="button" data-icon="arrow-r" data-iconpos="right" class="btn deux" onclick="album_pic();">Seleccionar de Galer&iacute;a</a-->
+			<div class="result-block"> </div>			
+  			<img id="cameraImage" src="" width="320" height="210" align="center"/>
+			
+		</div>
+
+	    <div class="api-div" id="api-device">
+			
+   			<table id="deviceinfo" style="display:none">
+				<tr>
+				 	<th>Device</th>
+				 	<th class="alt">Value</th>
+				</tr>
+				<tr>
+					<td>Name</td>
+					<td class="alt"><strong id="name">&nbsp;</strong></td>
+				</tr>
+				<tr>
+					<td>Platform</td>
+				 	<td class="alt"><strong id="platform">&nbsp;</strong></td>
+				</tr>
+				<tr>
+					<td>PhoneGap Version</td>
+				 	<td class="alt"><strong id="pgversion">&nbsp;</strong></td>
+				</tr>
+				<tr>
+					<td>UUID</td>
+				 	<td class="alt"><strong id="uuid">&nbsp;</strong></td>
+				</tr>
+				<tr>
+					<td>OS Version</td>
+				 	<td class="alt"><strong id="version">&nbsp;</strong></td>
+				</tr>
+				<tr>
+				 	<th>Screen</th>
+				 	<th class="alt">Value</th>
+				</tr>
+				<tr>
+					<td>Width</td>
+					<td class="alt"><strong id="width">&nbsp;</strong></td>
+				</tr>
+				<tr>
+					<td>Height</td>
+					<td class="alt"><strong id="height">&nbsp;</strong></td>
+				</tr>
+				<tr>
+					<td>Available Width</td>
+					<td class="alt"><strong id="availwidth">&nbsp;</strong></td>
+				</tr>
+				<tr>
+					<td>Available Height</td>
+					<td class="alt"><strong id="availheight">&nbsp;</strong></td>
+				</tr>
+				<tr>
+					<td>Color Depth</td>
+					<td class="alt"><strong id="colorDepth">&nbsp;</strong></td>
+				</tr> 					
+			</table>					
+		</div>
+
+	    
+
+	      
+  </div>
+</div>	
 			</section>
         </div>
-        <button class="button medium blue"id="guardar" >Guardar</button>
+        
         <script src="js/tendido_avance.js"></script>
         <script src="phonegap-1.4.1.js"></script>
-        <script src="js/geolocation.js"></script>
-        <script src="js/device.js"></script>
-        <script src="js/camera.js"></script>
+        <script src="js/geolocalizar_ini.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/camera.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/device.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/events.js"></script>	
     </body>
 </html>

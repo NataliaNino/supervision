@@ -8,16 +8,14 @@
  var id_constructor = sessionStorage.getItem("id_constructor");
  var id_usuario = sessionStorage.getItem("id");
  var id_actividad;
- var imagenfo;
+ 
  
  $("#n_constructor").html("<strong>Constructor: "+nombre_constructor+"</strong>");
  $("#n_tramo").html("<strong>Tramo: "+nombre_tramo+"</strong><br><br><br>");
  
  var db = window.openDatabase("bdmovil", "1.0", "Proyecto Supervisión Azteca", 200000);
  
-$(window).load(function () {
-	getCurrentPosition();
-})
+
  function errorCB(err) {
 	// Esto se puede ir a un Log de Error dir�a el purista de la oficina, pero como este es un ejemplo pongo el MessageBox.Show :P
 	if (err.code != "undefined" && err.message != "undefined"){
@@ -67,7 +65,7 @@ function GuardarItems(){
 }
 function GuardarItemsExe(tx) {	//alert('Registro: '+fil+': '+arr_ListaTabla[fil]);				//alert('DROP TABLE IF EXISTS '+arr_ListaTabla[fil][0]+';');	//tx.executeSql('DROP TABLE IF EXISTS '+arr_ListaTabla[fil][0]);				//alert('CREATE TABLE IF NOT EXISTS '+arr_ListaTabla[fil][0]+' ('+arr_ListaTabla[fil][1]+')');	//alert('DROP TABLE IF EXISTS control_de_pendientes');
 	tx.executeSql('DROP TABLE IF EXISTS control_hallazgos');
-	tx.executeSql('CREATE TABLE IF NOT EXISTS control_hallazgos ("id" CHAR,"id_item" CHAR,"tramo" CHAR,"constructor" CHAR, "usuario" CHAR, "usuario_cierre" CHAR, "fecha_registro" CHAR ,"fecha_cierre" CHAR ,"foto_registro" CHAR ,"foto_cierre" CHAR ,"registro_longitud" CHAR,"registro_latitud" CHAR,"registro_exactitud" CHAR,"cierre_longitud" CHAR ,"cierre_latitud" CHAR ,"estado" CHAR ,"observacion" CHAR,"observacion_cierre" CHAR)');			/*	//tx.executeSql('DROP TABLE IF EXISTS control_de_actividads');//alert('DROP TABLE IF EXISTS control_de_pendientes');	tx.executeSql('CREATE TABLE IF NOT EXISTS control_de_pendientes ("id" CHAR ,"tramo" CHAR ,"constructor" CHAR ,"usuario" CHAR ,"tipo_pendiente" CHAR ,"fecha_registro" CHAR ,"fecha_cierre" CHAR ,"foto_registro" CHAR ,"foto_cierre" CHAR ,"registro_longitud" CHAR ,"registro_latitud" CHAR ,"cierre_longitud" CHAR ,"cierre_latitud" CHAR ,"estado" CHAR ,"observacion" CHAR,"observacion_cierre" CHAR )'); */
+	tx.executeSql('CREATE TABLE IF NOT EXISTS control_hallazgos ("id" CHAR,"id_item" CHAR,"tramo" CHAR,"constructor" CHAR, "usuario" CHAR, "usuario_cierre" CHAR, "fecha_registro" CHAR ,"fecha_cierre" CHAR ,"foto_registro" CHAR ,"foto_cierre" CHAR ,"registro_longitud" CHAR,"registro_latitud" CHAR,"registro_exactitud" CHAR,"cierre_longitud" CHAR ,"cierre_latitud" CHAR,"cierre_exactitud" CHAR,"estado" CHAR ,"observacion" CHAR,"observacion_cierre" CHAR)');			/*	//tx.executeSql('DROP TABLE IF EXISTS control_de_actividads');//alert('DROP TABLE IF EXISTS control_de_pendientes');	tx.executeSql('CREATE TABLE IF NOT EXISTS control_de_pendientes ("id" CHAR ,"tramo" CHAR ,"constructor" CHAR ,"usuario" CHAR ,"tipo_pendiente" CHAR ,"fecha_registro" CHAR ,"fecha_cierre" CHAR ,"foto_registro" CHAR ,"foto_cierre" CHAR ,"registro_longitud" CHAR ,"registro_latitud" CHAR ,"cierre_longitud" CHAR ,"cierre_latitud" CHAR ,"estado" CHAR ,"observacion" CHAR,"observacion_cierre" CHAR )'); */
 	var now = new Date();
 	var fecha_captura = now.getFullYear()+'-'+now.getMonth()+'-'+now.getDate()+' '+now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
 	var id_unico = fecha_captura+'-'+id_tramo+'-'+id_constructor;	//alert(id_unico);	//2001-09-28 01:00:00
