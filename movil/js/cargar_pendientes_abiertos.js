@@ -22,7 +22,7 @@ function errorCB(err) {
 
 function error_tabla(err) {
 		alert("NO hay Pendientes por cerrar");
-		window.location = "Tendido.html";
+		window.location = "Pendientes.html";
 }
 
 function successCB() {
@@ -33,7 +33,7 @@ function ConsultaItems(tx) {	//alert('SELECT * FROM actividades_hallazgos');
 	tx.executeSql('SELECT * FROM control_de_pendientes cp inner join tipo_pendientes tp on cp.tipo_pendiente = tp.id where tramo = '+id_tramo+' and constructor = '+id_constructor+' and estado like "ABIERTO%" order by id', [], ConsultaItemsCarga,error_tabla);
 }
 function ConsultaItemsCarga(tx, results) {
-    var len = results.rows.length; alert("reg: "+len);
+    var len = results.rows.length; //alert("reg: "+len);
     if (len>0){	
 	    $("<option value='0'> </option>").appendTo("#Pendiente");												//alert(len);
 	    for (var i=0; i<len; i++){		//alert("<option value='"+results.rows.item(i).id+"'>"+results.rows.item(i).descripcion_pend+"</option>");
@@ -42,7 +42,7 @@ function ConsultaItemsCarga(tx, results) {
 	}else
 	{
 		alert("NO hay Pendientes por cerrar");
-		window.location = "Tendido.html";
+		window.location = "Pendientes.html";
 		return false;
 	} 
 }
@@ -58,7 +58,7 @@ function GuardarItemsExe(tx) {	//alert('Registro: '+fil+': '+arr_ListaTabla[fil]
 	var observacion = $("#observacion_pen").val();			//	alert('UPDATE control_de_pendientes  set estado = "CERRADO",fecha_ciere="'+fecha_captura+'",observacion_cierre = "'+observacion+'" where id= "'+id_pendiente+'"');
 	tx.executeSql('UPDATE control_de_pendientes set estado = "CERRADO",fecha_cierre="'+fecha_captura+'",foto_cierre="'+imagenfo+'",cierre_longitud="'+myLongitud+'",cierre_latitud="'+myLatitud+'",cierre_exactitud="'+myPrecision+'",observacion_cierre = "'+observacion+'" where id= "'+id_pendiente+'"');
 	alert("Información almacenada exitosamente");			//alert("Editar el menu");
-	window.location = "Tendido.html";
+	window.location = "Pendientes.html";
 }
 
 
@@ -78,6 +78,11 @@ $(document).ready(function(){
 		}	
 		GuardarItems();	
 	})
+	
+	$("#btn_cancelar").click(function () {
+		window.location = "Pendientes.html";
+	})
+	
 })
 
 // CARGAR MENU DE LA BASE DE DATOS

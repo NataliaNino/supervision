@@ -19,9 +19,8 @@ function successCB() {
 }
 
 function TBLavance_obra(tx) {//Si no existe crea la talba avance_obra
-	tx.executeSql('DROP TABLE IF EXISTS avance_obra');		
-    //tx.executeSql('CREATE TABLE IF NOT EXISTS avance_obra (id TEXT,  id_evento TEXT,  tramo TEXT ,  costructor TEXT,  fecha_registro TEXT,  de_punto TEXT,  a_punto TEXT,  herrajes_suspension TEXT,  herrajes_retencion TEXT,  cant_riendas TEXT,  nro_hilos TEXT,  spam TEXT,  abscisa_inicial TEXT,  abscisa_final TEXT,  km_instalados TEXT,  km_detallados TEXT,  puntos_ejec_dia TEXT,  acumulado TEXT,  odf character(2),  optimizado TEXT,  km_supervisados TEXT,  reserva TEXT,  longitud TEXT,  latitud TEXT,  observacion TEXT,  usuario TEXT,  fecha_digitacion TEXT');
-	tx.executeSql('CREATE TABLE IF NOT EXISTS avance_obra (id_unico TEXT, tramo TEXT,constructor TEXT, supervisor TEXT, nro_hilos TEXT, span TEXT, abscisa_inicial TEXT, abscisa_final TEXT,km_instalados TEXT, km_detallados TEXT, km_supervisados TEXT,fecha_registro TEXT )');
+	//tx.executeSql('DROP TABLE IF EXISTS avance_obra');		
+	tx.executeSql('CREATE TABLE IF NOT EXISTS avance_obra (id_unico TEXT, tramo TEXT,constructor TEXT, supervisor TEXT, nro_hilos TEXT, span TEXT, abscisa_inicial TEXT, abscisa_final TEXT,km_instalados TEXT, km_detallados TEXT, km_supervisados TEXT,fecha_registro TEXT, latitud TEXT, longitud TEXT, exactitud TEXT, foto TEXT)');
 }
 
 db.transaction(TBLavance_obra);
@@ -61,8 +60,10 @@ function insert_avance(tx){ //alert('insertar');
 			var fecha_captura = now.getFullYear()+'-'+now.getMonth()+'-'+now.getDate()+' '+now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
 			var id_unico = fecha_captura+'-'+id_tramo+'-'+id_constructor;
 			//alert(hilos);
-			//alert('INSERT INTO avance_obra (nro_hilos,span,abscisa_inicial,abscisa_final,km_instalados,km_supervisados,km_detallados) values ("'+hilos+'","'+span+'","'+abs_inicial+'","'+abs_final+'","'+instalados+'","'+supervisados+'","'+detallados+'")');
-			tx.executeSql('INSERT INTO avance_obra (id_unico,tramo,constructor,supervisor,nro_hilos,span,abscisa_inicial,abscisa_final,km_instalados,km_supervisados,km_detallados,fecha_registro) values ("'+id_unico+'","'+id_tramo+'","'+id_constructor+'","'+id_usuario+'","'+hilos+'","'+span+'","'+abs_inicial+'","'+abs_final+'","'+instalados+'","'+supervisados+'","'+detallados+'","'+fecha_captura+'")');
+			//alert('INSERT INTO avance_obra (id_unico,tramo,constructor,supervisor,nro_hilos,span,abscisa_inicial,abscisa_final,km_instalados,km_supervisados,km_detallados,fecha_registro, latitud, longitud, exactitud, foto) values ("'+id_unico+'","'+id_tramo+'","'+id_constructor+'","'+id_usuario+'","'+hilos+'","'+span+'","'+abs_inicial+'","'+abs_final+'","'+instalados+'","'+supervisados+'","'+detallados+'","'+fecha_captura+'","'+myLatitud+'","'+myLongitud+'","'+myPrecision+'","'+imagenfo+'")');
+			tx.executeSql('INSERT INTO avance_obra (id_unico,tramo,constructor,supervisor,nro_hilos,span,abscisa_inicial,abscisa_final,km_instalados,km_supervisados,km_detallados,fecha_registro, latitud, longitud, exactitud, foto) values ("'+id_unico+'","'+id_tramo+'","'+id_constructor+'","'+id_usuario+'","'+hilos+'","'+span+'","'+abs_inicial+'","'+abs_final+'","'+instalados+'","'+supervisados+'","'+detallados+'","'+fecha_captura+'","'+myLatitud+'","'+myLongitud+'","'+myPrecision+'","'+imagenfo+'")');
+			alert("Información almacenada exitosamente");			//alert("Editar el menu");
+			window.location = "Tendido.html"; 
 		}
 }
 

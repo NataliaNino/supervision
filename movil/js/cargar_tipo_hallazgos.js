@@ -41,30 +41,34 @@ function ObtenerItems(tx) {
 }
 function MuestraItems(tx, results) {
     var len = results.rows.length;	
+	$("#items").html("");
     $("<option value='0'> </option>").appendTo("#actividad");												//alert(len);
     for (var i=0; i<len; i++){		//alert("<option value='"+results.rows.item(i).id+"'>"+results.rows.item(i).descripcion_pend+"</option>");
     	$("<option value='"+results.rows.item(i).id+"'>"+results.rows.item(i).descripcion_etapa+'║'+results.rows.item(i).descripcion_actividad+"</option>").appendTo("#actividad");
-    } 
+    }
+    $("#actividad option[value=0]").attr("selected",true); 
 }
 
 function CargarObtenerItems(tx) {
+	$.mobile.showPageLoadingMsg();
     tx.executeSql('SELECT * FROM actividades_hallazgos where id_actividad = "'+id_actividad+'" and tipo_rta = "SELECCION" and activo like "S%"', [], MuestraCargarObtenerItems);
+    $.mobile.hidePageLoadingMsg();
 }
 function MuestraCargarObtenerItems(tx, results) {
 	var len = results.rows.length;	//alert(len);
-	$("#items").html("");
-    $("<option value='0'> </option>").appendTo("#items");												//alert(len);
+    $('<option value="0"></option>').appendTo("#items");	
 	for (i = 0; i < len; i++){
 		var id_item = results.rows.item(i).id_item;
 			$("<option value='"+id_item+"'>"+results.rows.item(i).descripcion_item+"</option>").appendTo("#items");
    	}
+  	
 }
 
 function GuardarItems(){
 	db.transaction(GuardarItemsExe, errorCB);
 }
 function GuardarItemsExe(tx) {	//alert('Registro: '+fil+': '+arr_ListaTabla[fil]);				//alert('DROP TABLE IF EXISTS '+arr_ListaTabla[fil][0]+';');	//tx.executeSql('DROP TABLE IF EXISTS '+arr_ListaTabla[fil][0]);				//alert('CREATE TABLE IF NOT EXISTS '+arr_ListaTabla[fil][0]+' ('+arr_ListaTabla[fil][1]+')');	//alert('DROP TABLE IF EXISTS control_de_pendientes');
-	tx.executeSql('DROP TABLE IF EXISTS control_hallazgos');
+	//tx.executeSql('DROP TABLE IF EXISTS control_hallazgos');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS control_hallazgos ("id" CHAR,"id_item" CHAR,"tramo" CHAR,"constructor" CHAR, "usuario" CHAR, "usuario_cierre" CHAR, "fecha_registro" CHAR ,"fecha_cierre" CHAR ,"foto_registro" CHAR ,"foto_cierre" CHAR ,"registro_longitud" CHAR,"registro_latitud" CHAR,"registro_exactitud" CHAR,"cierre_longitud" CHAR ,"cierre_latitud" CHAR,"cierre_exactitud" CHAR,"estado" CHAR ,"observacion" CHAR,"observacion_cierre" CHAR)');			/*	//tx.executeSql('DROP TABLE IF EXISTS control_de_actividads');//alert('DROP TABLE IF EXISTS control_de_pendientes');	tx.executeSql('CREATE TABLE IF NOT EXISTS control_de_pendientes ("id" CHAR ,"tramo" CHAR ,"constructor" CHAR ,"usuario" CHAR ,"tipo_pendiente" CHAR ,"fecha_registro" CHAR ,"fecha_cierre" CHAR ,"foto_registro" CHAR ,"foto_cierre" CHAR ,"registro_longitud" CHAR ,"registro_latitud" CHAR ,"cierre_longitud" CHAR ,"cierre_latitud" CHAR ,"estado" CHAR ,"observacion" CHAR,"observacion_cierre" CHAR )'); */
 	var now = new Date();
 	var fecha_captura = now.getFullYear()+'-'+now.getMonth()+'-'+now.getDate()+' '+now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
@@ -103,8 +107,13 @@ $(document).ready(function(){
 		GuardarItems();	
 	})
 	
-	$("#actividad").click(function () {			//alert("li Click");
-		id_actividad = $("#actividad").val(); 
+	$("#btn_cancelar").click(function () {
+		window.location = "Hallazgos.html";
+	})
+	
+	$("#actividad").change(function () {			
+		id_actividad = $(this).val(); 	//alert($(this).val());
+		$("#items").empty();
 		if(id_actividad>0){
 			db.transaction(CargarObtenerItems);		//alert("actividad: "+id_actividad);
 		}

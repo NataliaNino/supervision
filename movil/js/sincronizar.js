@@ -1,33 +1,57 @@
 /**
- * @author juan.garzon 2013-JUN-20
+ * @author juan.garzon 2013-JUN-20		errorCB_Avance
  */
 	var nombre_supervisor = sessionStorage.getItem("nombre");
  	var nombre_tramo = sessionStorage.getItem("nom_tramo");
  	var nombre_constructor = sessionStorage.getItem("nom_constructor");
+
  $("#n_supervisor").html("<strong>Supervisor: "+nombre_supervisor+"</strong><br>");
  $("#n_constructor").html("<strong>Constructor: "+nombre_constructor+"</strong>");
  $("#n_tramo").html("<strong>Tramo: "+nombre_tramo+"</strong><br><br><br>");					//$("#menu").html('<a data-role="button" data-theme="a">AFSDFASDF</a>');  //data-icon="arrow-r" data-iconpos="right"//$("#menu").html('<select name="constructor" id="constructor" data-native-menu="true"></select><br>');
 	
 var db = window.openDatabase("bdmovil", "1.0", "Proyecto Supervisión Azteca", 200000);
 
-function errorCB(err) {
-	// Esto se puede ir a un Log de Error dir�a el purista de la oficina, pero como este es un ejemplo pongo el MessageBox.Show :P
-	if (err.code === undefined || err.message == "undefined"){
-		alert("Error procesando SQL: Codigo: " + err.code + " Mensaje: "+err.message);
-		//alert("No hay Listas pendiente de envío");
-		//window.location = "menu_principal.html";
+function errorCB_items(err) {
+	if (err.code === undefined || err.message === undefined){
+		$("#total_actualizados").before("<br>No hay Items para sincronizar.<br>");
 	}else
-	{
+	{ 
+		alert("Error procesando SQL: Codigo: " + err.code + " Mensaje: "+err.message);		
+	}
+}
+function errorCB_Avance(err) {
+	if (err.code === undefined || err.message === undefined){
+		$("#total_actualizados").before("<br>No hay Información de Avance de Obra para sincronizar.<br>");
+	}else
+	{ 
+		alert("Error procesando SQL: Codigo: " + err.code + " Mensaje: "+err.message);		
+	}
+}
+function errorCB_pendientes(err) {
+	if (err.code === undefined || err.message === undefined){
+		$("#total_actualizados").before("<br>No hay Pendientes para sincronizar.<br>");
+	}else
+	{ 
+		alert("Error procesando SQL: Codigo: " + err.code + " Mensaje: "+err.message);		
+	}
+	$("#btn_cancelar").show();
+}
+function errorCB_hallazgos(err) {
+	if (err.code === undefined || err.message === undefined){
+		$("#total_actualizados").before("<br>No hay Hallazgos para sincronizar.<br>");
+	}else
+	{ 
 		alert("Error procesando SQL: Codigo: " + err.code + " Mensaje: "+err.message);		
 	}
 }
 
 function ConsultaSincronizar(tx) {
-	tx.executeSql('SELECT * FROM lista_chequeo_rtas', [], ConsultaSincronizarCarga,errorCB);
+	tx.executeSql('SELECT * FROM lista_chequeo_rtas', [], ConsultaSincronizarCarga,errorCB_items);
 }
 function ConsultaSincronizarCarga(tx, results) {
+	//$.mobile.showPageLoadingMsg();
 	var len = results.rows.length;									//alert(len);
-	//if (len == 0) alert("No hay información pendiente de envío");
+	$("#total_actualizados").before("<br>Items encontrados: "+len+".<br>");
 	for (i = 0; i < len; i++){
 		var parametros = new Object();
 		parametros['tabla'] = 'lista_chequeo';
@@ -43,8 +67,9 @@ function ConsultaSincronizarCarga(tx, results) {
 
 		$.ajax({
 			data:  parametros,
-			url:'http://200.21.69.126:8088/supervision_fibra_optica/servicios/sincronizar.php?',//url:'http://localhost:808/servicios/logueo.php?usr='+usr+'&pas='+pas,
+			url:'http://200.21.69.126:8088/supervision_fibra_optica/servicios/sincronizar.php?',		//url:'http://localhost:808/servicios/sincronizar.php?',
 			type:  'post',
+			async: false,			// timeout: 30000,
 		    beforeSend: function () {
 		            $("#resultado").html("Procesando, espere por favor...");
 		    },
@@ -52,27 +77,83 @@ function ConsultaSincronizarCarga(tx, results) {
 				$("#resultado").before(response);
 				db.transaction(function(tx) {
 				var item_rta = response.trim();			//alert(item_rta);	//alert(id_guardar +'   ----   '+ response);	//alert(item_rta);
-		          tx.executeSql('DELETE from lista_chequeo_rtas where id = "'+id_guardar+'" and item = "'+item_rta+'"');
+		          //tx.executeSql('DELETE from lista_chequeo_rtas where id = "'+id_guardar+'" and item = "'+item_rta+'"');
 		        });
 			},
 			error: function (error) {
-				$("#resultado").text('Error');
+				$("#resultado").text('Error en el ingreso de respuestas de lista de chequeo');
+		    }
+		})
+	
+   };
+   	//$.mobile.hidePageLoadingMsg();
+	//alert("Sincronización Exitosa");
+	//window.location = "menu_principal.html";
+}
+
+//SINCRONIZAR AVANCE DE OBRA	-	AVANCE DE OBRA		-		AVANCE DE OBRA		-		AVANCE DE OBRA
+function ConsultaSincronizarAvance(tx) {
+	tx.executeSql('SELECT * FROM avance_obra', [], ConsultaSincronizarAvanceCarga,errorCB_Avance);
+}
+function ConsultaSincronizarAvanceCarga(tx, results) {
+	//$.mobile.showPageLoadingMsg();
+	var len = results.rows.length;									//alert(len);
+	$("#total_actualizados").before("<br>Registros de Avance de Obra encontrados: "+len+".<br>");
+	for (i = 0; i < len; i++){
+		var parametros = new Object();
+		parametros['tabla'] = 'avance_obra';
+		parametros['id'] = results.rows.item(i).id_unico;
+		parametros['tramo'] = results.rows.item(i).tramo;
+		parametros['constructor'] = results.rows.item(i).constructor;
+		parametros['usuario'] = results.rows.item(i).supervisor;
+		parametros['nro_hilos'] = results.rows.item(i).nro_hilos;
+		parametros['span'] = results.rows.item(i).span;				//parametros['id_item'] = results.rows.item(i).id_item;
+		parametros['abscisa_inicial'] = results.rows.item(i).abscisa_inicial;
+		parametros['abscisa_final'] = results.rows.item(i).abscisa_final;
+		parametros['km_instalados'] = results.rows.item(i).km_instalados;
+		parametros['km_detallados'] = results.rows.item(i).km_detallados;
+		parametros['km_supervisados'] = results.rows.item(i).km_supervisados;
+		parametros['fecha_registro'] = results.rows.item(i).fecha_registro;
+		parametros['latitud'] = results.rows.item(i).latitud;
+		parametros['longitud'] = results.rows.item(i).longitud;	//alert(results.rows.item(i).registro_longitud);
+		parametros['exactitud'] = results.rows.item(i).exactitud;
+		parametros['foto'] = results.rows.item(i).foto;			//alert(results.rows.item(i).foto_registro);
+		
+		var id_guardar = results.rows.item(i).id_unico;
+		$.ajax({
+			data:  parametros,
+			url:'http://200.21.69.126:8088/supervision_fibra_optica/servicios/sincronizar.php?',		//url:'http://localhost:808/servicios/sincronizar.php?',
+			type:  'post',
+			async: false,		//timeout: 30000,
+		    beforeSend: function () {
+		            $("#resultado").html("Procesando, espere por favor...");
+		    },
+			success: function(response){
+				$("#resultado").before(response);
+				db.transaction(function(tx) {
+				//var item_rta = response.trim();			//alert(item_rta);	//alert(id_guardar +'   ----   '+ response);	//alert(item_rta);
+		          //tx.executeSql('DELETE from control_de_pendientes where id = "'+id_guardar+'" and id_item = "'+id_item+'"');
+		        });
+			},
+			error: function (error) {
+				$("#resultado").text('Error en ingreso de avance de Obra');
 		    }
 		})
 	
    	}
-	alert("Sincronización Exitosa");
+	//alert("Sincronización Exitosa");
 	//window.location = "menu_principal.html";
-   	
+	//$.mobile.hidePageLoadingMsg();
 }	
 
 //SINCRONIZAR HALLAZGOS
 function ConsultaSincronizarHallazgos(tx) {
-	tx.executeSql('SELECT * FROM control_hallazgos', [], ConsultaSincronizarHallazgosCarga,errorCB);
+	tx.executeSql('SELECT * FROM control_hallazgos', [], ConsultaSincronizarHallazgosCarga,errorCB_hallazgos);
 }
 function ConsultaSincronizarHallazgosCarga(tx, results) {
+	//$.mobile.showPageLoadingMsg();
 	var len = results.rows.length;									//alert(len);
-	//if (len == 0) alert("No hay información pendiente de envío");
+	$("#total_actualizados").before("<br>Hallazgos encontrados: "+len+".<br>");
 	for (i = 0; i < len; i++){
 		var parametros = new Object();
 		parametros['tabla'] = 'control_hallazgos';
@@ -103,9 +184,9 @@ function ConsultaSincronizarHallazgosCarga(tx, results) {
 		
 		$.ajax({
 			data:  parametros,
-			url:'http://200.21.69.126:8088/supervision_fibra_optica/servicios/sincronizar.php?',//url:'http://localhost:808/servicios/logueo.php?usr='+usr+'&pas='+pas,
+			url:'http://200.21.69.126:8088/supervision_fibra_optica/servicios/sincronizar.php?',		//url:'http://localhost:808/servicios/sincronizar.php?',
 			type:  'post',
-			async: false,
+			async: false,			//timeout: 30000,
 		    beforeSend: function () {
 		            $("#resultado").html("Procesando, espere por favor...");
 		    },
@@ -117,24 +198,25 @@ function ConsultaSincronizarHallazgosCarga(tx, results) {
 		        });
 			},
 			error: function (error) {
-				$("#resultado").text('Error');
+				$("#resultado").text('Error en el ingreso de Hallazgos');
 		    }
 		})
 	
    	}
-	alert("Sincronización Exitosa");
+   	//$.mobile.hidePageLoadingMsg();
+	//alert("Sincronización Exitosa");
 	//window.location = "menu_principal.html";
-   	
 }
 
 
 //SINCRONIZAR PENDIENTES
 function ConsultaSincronizarPendientes(tx) {
-	tx.executeSql('SELECT * FROM control_hallazgos', [], ConsultaSincronizarHallazgosCarga,errorCB);
+	tx.executeSql('SELECT * FROM control_de_pendientes', [], ConsultaSincronizarPendientesCarga,errorCB_pendientes);
 }
 function ConsultaSincronizarPendientesCarga(tx, results) {
+	//$.mobile.showPageLoadingMsg();
 	var len = results.rows.length;									//alert(len);
-	//if (len == 0) alert("No hay información pendiente de envío");
+	$("#total_actualizados").before("<br>Pendientes encontrados: "+len+".<br>");
 	for (i = 0; i < len; i++){
 		var parametros = new Object();
 		parametros['tabla'] = 'control_de_pendientes';
@@ -162,9 +244,9 @@ function ConsultaSincronizarPendientesCarga(tx, results) {
 		
 		$.ajax({
 			data:  parametros,
-			url:'http://200.21.69.126:8088/supervision_fibra_optica/servicios/sincronizar.php?',//url:'http://localhost:808/servicios/logueo.php?usr='+usr+'&pas='+pas,
+			url:'http://200.21.69.126:8088/supervision_fibra_optica/servicios/sincronizar.php?',		//url:'http://localhost:808/servicios/sincronizar.php?',
 			type:  'post',
-			async: false,
+			async: false,		//timeout: 30000,
 		    beforeSend: function () {
 		            $("#resultado").html("Procesando, espere por favor...");
 		    },
@@ -172,23 +254,27 @@ function ConsultaSincronizarPendientesCarga(tx, results) {
 				$("#resultado").before(response);
 				db.transaction(function(tx) {
 				//var item_rta = response.trim();			//alert(item_rta);	//alert(id_guardar +'   ----   '+ response);	//alert(item_rta);
-		          //tx.executeSql('DELETE from control_hallazgos where id = "'+id_guardar+'" and id_item = "'+id_item+'"');
+		          //tx.executeSql('DELETE from control_de_pendientes where id = "'+id_guardar+'" and id_item = "'+id_item+'"');
 		        });
 			},
 			error: function (error) {
-				$("#resultado").text('Error');
+				$("#resultado").text('Error en el ingreso de pendientes');
 		    }
 		})
 	
    	}
-	alert("Sincronización Exitosa");
+   	$("#btn_cancelar").show();
+	//alert("Sincronización Exitosa");
 	//window.location = "menu_principal.html";
-   	
+	//$.mobile.hidePageLoadingMsg();
 }
 
 
 // CARGAR MENU DE LA BASE DE DATOS
+$("#btn_cancelar").hide();
+
 db.transaction(ConsultaSincronizar);
+db.transaction(ConsultaSincronizarAvance);
 db.transaction(ConsultaSincronizarHallazgos);
 db.transaction(ConsultaSincronizarPendientes);
 

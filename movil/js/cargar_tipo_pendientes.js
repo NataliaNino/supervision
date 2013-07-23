@@ -49,7 +49,7 @@ function GuardarItems(){
 	db.transaction(GuardarItemsExe, errorCB);
 }
 function GuardarItemsExe(tx) {	//alert('Registro: '+fil+': '+arr_ListaTabla[fil]);				//alert('DROP TABLE IF EXISTS '+arr_ListaTabla[fil][0]+';');	//tx.executeSql('DROP TABLE IF EXISTS '+arr_ListaTabla[fil][0]);				//alert('CREATE TABLE IF NOT EXISTS '+arr_ListaTabla[fil][0]+' ('+arr_ListaTabla[fil][1]+')');
-	tx.executeSql('DROP TABLE IF EXISTS control_de_pendientes');//alert('DROP TABLE IF EXISTS control_de_pendientes');
+	//tx.executeSql('DROP TABLE IF EXISTS control_de_pendientes');//alert('DROP TABLE IF EXISTS control_de_pendientes');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS control_de_pendientes ("id" CHAR ,"tramo" CHAR ,"constructor" CHAR ,"usuario" CHAR ,"tipo_pendiente" CHAR ,"fecha_registro" CHAR ,"fecha_cierre" CHAR ,"foto_registro" CHAR ,"foto_cierre" CHAR, "registro_longitud" CHAR, "registro_latitud" CHAR, "registro_exactitud" CHAR,"cierre_longitud" CHAR, "cierre_latitud" CHAR, "cierre_exactitud" CHAR,"estado" CHAR ,"observacion" CHAR,"observacion_cierre" CHAR )');
 	var now = new Date();
 	var fecha_captura = now.getFullYear()+'-'+now.getMonth()+'-'+now.getDate()+' '+now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
@@ -58,7 +58,7 @@ function GuardarItemsExe(tx) {	//alert('Registro: '+fil+': '+arr_ListaTabla[fil]
 	var observacion = $("#observacion_pen").val();			//alert('INSERT INTO control_de_pendientes (id,tramo,constructor,usuario,tipo_pendiente,fecha_registro,estado,observacion) values ("'+id_unico+'","'+id_tramo+'","'+id_constructor+'","'+id_usuario+'","'+tipo_pendiente+'","'+fecha_captura+'","ABIERTO","'+observacion+'")');
 	tx.executeSql('INSERT INTO control_de_pendientes (id,tramo,constructor,usuario,tipo_pendiente,fecha_registro,foto_registro,registro_longitud,registro_latitud,registro_exactitud,estado,observacion) values ("'+id_unico+'","'+id_tramo+'","'+id_constructor+'","'+id_usuario+'","'+tipo_pendiente+'","'+fecha_captura+'","'+imagenfo+'","'+myLongitud+'","'+myLatitud+'","'+myPrecision+'","ABIERTO","'+observacion+'")');
 	alert("Información almacenada exitosamente");			//alert("Editar el menu");
-	window.location = "Tendido.html";
+	window.location = "Pendientes.html";
 }
 
 Cargar_lista();
@@ -77,5 +77,8 @@ $(document).ready(function(){
 			return false;
 		}	
 		GuardarItems();	
+	})
+	$("#btn_cancelar").click(function () {
+		window.location = "Pendientes.html";
 	})
 })
