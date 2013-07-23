@@ -60,10 +60,17 @@ function insert_avance(tx){ //alert('insertar');
 			var fecha_captura = now.getFullYear()+'-'+now.getMonth()+'-'+now.getDate()+' '+now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
 			var id_unico = fecha_captura+'-'+id_tramo+'-'+id_constructor;
 			//alert(hilos);
+<<<<<<< HEAD
 			//alert('INSERT INTO avance_obra (id_unico,tramo,constructor,supervisor,nro_hilos,span,abscisa_inicial,abscisa_final,km_instalados,km_supervisados,km_detallados,fecha_registro, latitud, longitud, exactitud, foto) values ("'+id_unico+'","'+id_tramo+'","'+id_constructor+'","'+id_usuario+'","'+hilos+'","'+span+'","'+abs_inicial+'","'+abs_final+'","'+instalados+'","'+supervisados+'","'+detallados+'","'+fecha_captura+'","'+myLatitud+'","'+myLongitud+'","'+myPrecision+'","'+imagenfo+'")');
 			tx.executeSql('INSERT INTO avance_obra (id_unico,tramo,constructor,supervisor,nro_hilos,span,abscisa_inicial,abscisa_final,km_instalados,km_supervisados,km_detallados,fecha_registro, latitud, longitud, exactitud, foto) values ("'+id_unico+'","'+id_tramo+'","'+id_constructor+'","'+id_usuario+'","'+hilos+'","'+span+'","'+abs_inicial+'","'+abs_final+'","'+instalados+'","'+supervisados+'","'+detallados+'","'+fecha_captura+'","'+myLatitud+'","'+myLongitud+'","'+myPrecision+'","'+imagenfo+'")');
 			alert("Información almacenada exitosamente");			//alert("Editar el menu");
 			window.location = "Tendido.html"; 
+=======
+			//alert('INSERT INTO avance_obra (nro_hilos,span,abscisa_inicial,abscisa_final,km_instalados,km_supervisados,km_detallados) values ("'+hilos+'","'+span+'","'+abs_inicial+'","'+abs_final+'","'+instalados+'","'+supervisados+'","'+detallados+'")');
+			tx.executeSql('INSERT INTO avance_obra (id_unico,tramo,constructor,supervisor,nro_hilos,span,abscisa_inicial,abscisa_final,km_instalados,km_supervisados,km_detallados,fecha_registro) values ("'+id_unico+'","'+id_tramo+'","'+id_constructor+'","'+id_usuario+'","'+hilos+'","'+span+'","'+abs_inicial+'","'+abs_final+'","'+instalados+'","'+supervisados+'","'+detallados+'","'+fecha_captura+'")');
+			alert("Información almacenada exitosamente");
+			window.location = "Tendido.html;
+>>>>>>> 6d36f3ca4cb201850ed40389f298e0a253e8e73f
 		}
 }
 

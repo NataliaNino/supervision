@@ -12,6 +12,7 @@
 var db = window.openDatabase("bdmovil", "1.0", "Proyecto Supervisión Azteca", 200000);
 
 function errorCB_items(err) {
+<<<<<<< HEAD
 	if (err.code === undefined || err.message === undefined){
 		$("#total_actualizados").before("<br>No hay Items para sincronizar.<br>");
 	}else
@@ -41,8 +42,30 @@ function errorCB_hallazgos(err) {
 		$("#total_actualizados").before("<br>No hay Hallazgos para sincronizar.<br>");
 	}else
 	{ 
+=======
+/*	if (err.code === undefined || err.message === undefined){
+		$("#total_actualizados").before("<br>No hay Items para sincronizar.<br>");
+	}else
+	{ */
 		alert("Error procesando SQL: Codigo: " + err.code + " Mensaje: "+err.message);		
-	}
+//	}
+}
+function errorCB_pendientes(err) {
+/*	if (err.code === undefined || err.message === undefined){
+		$("#total_actualizados").before("<br>No hay Pendientes para sincronizar.<br>");
+	}else
+	{ */
+		alert("Error procesando SQL: Codigo: " + err.code + " Mensaje: "+err.message);		
+//	}
+}
+function errorCB_hallazgos(err) {
+/*	if (err.code === undefined || err.message === undefined){
+		$("#total_actualizados").before("<br>No hay Hallazgos para sincronizar.<br>");
+	}else
+	{ */
+>>>>>>> 6d36f3ca4cb201850ed40389f298e0a253e8e73f
+		alert("Error procesando SQL: Codigo: " + err.code + " Mensaje: "+err.message);		
+//	}
 }
 
 function ConsultaSincronizar(tx) {
@@ -67,9 +90,17 @@ function ConsultaSincronizarCarga(tx, results) {
 
 		$.ajax({
 			data:  parametros,
+<<<<<<< HEAD
 			url:'http://200.21.69.126:8088/supervision_fibra_optica/servicios/sincronizar.php?',		//url:'http://localhost:808/servicios/sincronizar.php?',
 			type:  'post',
 			async: false,			// timeout: 30000,
+=======
+			url:'http://200.21.69.126:8088/supervision_fibra_optica/servicios/sincronizar.php?',
+			//url:'http://localhost:808/servicios/sincronizar.php?',
+			type:  'post',
+			async: false,
+			timeout: 30000,
+>>>>>>> 6d36f3ca4cb201850ed40389f298e0a253e8e73f
 		    beforeSend: function () {
 		            $("#resultado").html("Procesando, espere por favor...");
 		    },
@@ -78,6 +109,7 @@ function ConsultaSincronizarCarga(tx, results) {
 				db.transaction(function(tx) {
 				var item_rta = response.trim();			//alert(item_rta);	//alert(id_guardar +'   ----   '+ response);	//alert(item_rta);
 		          //tx.executeSql('DELETE from lista_chequeo_rtas where id = "'+id_guardar+'" and item = "'+item_rta+'"');
+<<<<<<< HEAD
 		        });
 			},
 			error: function (error) {
@@ -133,6 +165,8 @@ function ConsultaSincronizarAvanceCarga(tx, results) {
 				db.transaction(function(tx) {
 				//var item_rta = response.trim();			//alert(item_rta);	//alert(id_guardar +'   ----   '+ response);	//alert(item_rta);
 		          //tx.executeSql('DELETE from control_de_pendientes where id = "'+id_guardar+'" and id_item = "'+id_item+'"');
+=======
+>>>>>>> 6d36f3ca4cb201850ed40389f298e0a253e8e73f
 		        });
 			},
 			error: function (error) {
@@ -140,7 +174,14 @@ function ConsultaSincronizarAvanceCarga(tx, results) {
 		    }
 		})
 	
+<<<<<<< HEAD
    	}
+=======
+   };
+
+   	
+   	//$.mobile.hidePageLoadingMsg();
+>>>>>>> 6d36f3ca4cb201850ed40389f298e0a253e8e73f
 	//alert("Sincronización Exitosa");
 	//window.location = "menu_principal.html";
 	//$.mobile.hidePageLoadingMsg();
@@ -184,9 +225,17 @@ function ConsultaSincronizarHallazgosCarga(tx, results) {
 		
 		$.ajax({
 			data:  parametros,
+<<<<<<< HEAD
 			url:'http://200.21.69.126:8088/supervision_fibra_optica/servicios/sincronizar.php?',		//url:'http://localhost:808/servicios/sincronizar.php?',
 			type:  'post',
 			async: false,			//timeout: 30000,
+=======
+			//url:'http://200.21.69.126:8088/supervision_fibra_optica/servicios/sincronizar.php?',
+			url:'http://localhost:808/servicios/sincronizar.php?',
+			type:  'post',
+			async: false,
+			timeout: 30000,
+>>>>>>> 6d36f3ca4cb201850ed40389f298e0a253e8e73f
 		    beforeSend: function () {
 		            $("#resultado").html("Procesando, espere por favor...");
 		    },
@@ -244,9 +293,17 @@ function ConsultaSincronizarPendientesCarga(tx, results) {
 		
 		$.ajax({
 			data:  parametros,
+<<<<<<< HEAD
 			url:'http://200.21.69.126:8088/supervision_fibra_optica/servicios/sincronizar.php?',		//url:'http://localhost:808/servicios/sincronizar.php?',
 			type:  'post',
 			async: false,		//timeout: 30000,
+=======
+			//url:'http://200.21.69.126:8088/supervision_fibra_optica/servicios/sincronizar.php?',
+			url:'http://localhost:808/servicios/sincronizar.php?',
+			type:  'post',
+			async: false,
+			timeout: 30000,
+>>>>>>> 6d36f3ca4cb201850ed40389f298e0a253e8e73f
 		    beforeSend: function () {
 		            $("#resultado").html("Procesando, espere por favor...");
 		    },
@@ -263,10 +320,17 @@ function ConsultaSincronizarPendientesCarga(tx, results) {
 		})
 	
    	}
+<<<<<<< HEAD
    	$("#btn_cancelar").show();
 	//alert("Sincronización Exitosa");
 	//window.location = "menu_principal.html";
 	//$.mobile.hidePageLoadingMsg();
+=======
+	//alert("Sincronización Exitosa");
+	//window.location = "menu_principal.html";
+	//$.mobile.hidePageLoadingMsg();
+   	
+>>>>>>> 6d36f3ca4cb201850ed40389f298e0a253e8e73f
 }
 
 
