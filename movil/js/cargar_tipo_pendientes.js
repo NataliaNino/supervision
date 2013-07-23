@@ -58,7 +58,7 @@ function GuardarItemsExe(tx) {	//alert('Registro: '+fil+': '+arr_ListaTabla[fil]
 	var observacion = $("#observacion_pen").val();			//alert('INSERT INTO control_de_pendientes (id,tramo,constructor,usuario,tipo_pendiente,fecha_registro,estado,observacion) values ("'+id_unico+'","'+id_tramo+'","'+id_constructor+'","'+id_usuario+'","'+tipo_pendiente+'","'+fecha_captura+'","ABIERTO","'+observacion+'")');
 	tx.executeSql('INSERT INTO control_de_pendientes (id,tramo,constructor,usuario,tipo_pendiente,fecha_registro,foto_registro,registro_longitud,registro_latitud,registro_exactitud,estado,observacion) values ("'+id_unico+'","'+id_tramo+'","'+id_constructor+'","'+id_usuario+'","'+tipo_pendiente+'","'+fecha_captura+'","'+imagenfo+'","'+myLongitud+'","'+myLatitud+'","'+myPrecision+'","ABIERTO","'+observacion+'")');
 	alert("Información almacenada exitosamente");			//alert("Editar el menu");
-	window.location = "Tendido.html";
+	window.location = "Pendientes.html";
 }
 
 Cargar_lista();
@@ -77,5 +77,8 @@ $(document).ready(function(){
 			return false;
 		}	
 		GuardarItems();	
+	})
+	$("#btn_cancelar").click(function () {
+		window.location = "Pendientes.html";
 	})
 })

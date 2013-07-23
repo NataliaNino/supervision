@@ -5,7 +5,7 @@ require_once("conexion.php"); ?>
 
 <?php
 if ($_POST['tabla'] == "lista_chequeo"){				/*	echo "Tabla: ".$_POST['tabla']."   Cod Env&iacute;o: ".$_POST['id']."   Tramo: ".$_POST['tramo']."   constructor: ".$_POST['constructor']."   fecha_supervision: ".$_POST['fecha_supervision']."   usuario: ".$_POST['usuario']."   item: ".$_POST['item']."   respuesta: ".$_POST['respuesta']."   observacion: ".$_POST['observacion']."<br>"; */
-	$id_envio = $_POST['id'];
+/*	$id_envio = $_POST['id'];
 	$item = $_POST['item'];
 	$tramo = $_POST['tramo'];
 	$constructor = $_POST['constructor'];
@@ -33,7 +33,7 @@ if ($_POST['tabla'] == "lista_chequeo"){				/*	echo "Tabla: ".$_POST['tabla']." 
 	pg_query($cx,$query_sql_rt) or die('No pudo conectarse '); 
 	
 	echo $item;
-	pg_close($cx);
+	pg_close($cx); */
 
 }elseif ($_POST['tabla'] == "control_hallazgos"){
 	
@@ -66,24 +66,26 @@ if ($_POST['tabla'] == "lista_chequeo"){				/*	echo "Tabla: ".$_POST['tabla']." 
 	$observacion_cierre = $_POST['observacion_cierre'];
 
 	//VERIFICA SI EL HALLAZGO EXISTE
-	$query_sql2 = "select count(*) from control_hallazgos where id_envio like '$id_envio' and id_item like '$id_item'";
-	$resultado2 = pg_query($cx,$query_sql2) or die('No pudo conectarse ');
+	$query_sql2 = "select count(*) from control_hallazgos where id_envio = '$id_envio' and id_item = '$id_item'";
+	$resultado2 = pg_query($cx,$query_sql2) or die(pg_last_error());
 	$arr_num_reg = pg_fetch_array($resultado2, 0, PGSQL_NUM);
 	$reg_encontrados =  $arr_num_reg[0];	
 	if ($reg_encontrados == 0){	//SI NO EXISTE EL HALLAZGO, CREA EL REGISTRO EN LA BASE DE DATOS			//echo $query_sql_add;
 		$query_sql_add = "insert into control_hallazgos (id_item,tramo,usuario,observacion,registro_longitud,registro_latitud,registro_exactitud,estado,id_envio,fecha_registro) values ('$id_item','$tramo','$usuario','$observacion',$registro_longitud,$registro_latitud,$registro_exactitud,'$estado','$id_envio','$fecha_registro')"; //echo "$query_sql<br>";	
-		pg_query($cx,$query_sql_add) or die('No pudo conectarse '); 
+		pg_query($cx,$query_sql_add) or die(pg_last_error()); 
 		unset($query_sql_add);
 		pg_query($cx, "COMMIT;"); 
 	}
-	else{				//echo $query_sql_add;
-		$query_sql_add = "update control_hallazgos fecha_cierre='$fecha_cierre', usuario_cierre='$usuario', observacion_cierre='$observacion_cierre', estado='$estado' where id_envio like '$id_envio'"; //echo "$query_sql<br>";		
-		pg_query($cx,$query_sql_add) or die('No pudo conectarse '); 
-		unset($query_sql_add);
-		pg_query($cx, "COMMIT;");
-        echo $id_item;		
+	else{				
+		if ($estado == "CERRADO"){
+			$query_sql_add = "update control_hallazgos set fecha_cierre='$fecha_cierre', usuario_cierre='$usuario', observacion_cierre='$observacion_cierre', estado='$estado' where id_envio = '$id_envio' and id_item = '$id_item'"; //echo "$query_sql_add;<br>";		
+			pg_query($cx,$query_sql_add) or die(pg_last_error()); 
+			unset($query_sql_add);
+			pg_query($cx, "COMMIT;");
+			echo $id_item;
+		}
 	}
-	pg_close($cx);
+	pg_close($cx); 
 }elseif ($_POST['tabla'] == "control_de_pendientes"){		//PENDIENTES	PENDIENTES	PENDIENTES	PENDIENTES	PENDIENTES	PENDIENTES	PENDIENTES
 	$id_envio = $_POST['id'];
 	$tipo_pendiente = $_POST['tipo_pendiente'];
@@ -115,23 +117,25 @@ if ($_POST['tabla'] == "lista_chequeo"){				/*	echo "Tabla: ".$_POST['tabla']." 
 	
 	
 	//VERIFICA SI EL HALLAZGO EXISTE
-	$query_sql2 = "select count(*) from control_de_pendientes where id_envio like '$id_envio' and tipo_pendiente like '$tipo_pendiente'"; 	
-	$resultado2 = pg_query($cx,$query_sql2) or die('No pudo conectarse ');
+	$query_sql2 = "select count(*) from control_de_pendientes where id_envio = '$id_envio' and tipo_pendiente = '$tipo_pendiente'"; 	
+	$resultado2 = pg_query($cx,$query_sql2) or die(pg_last_error());
 	$arr_num_reg = pg_fetch_array($resultado2, 0, PGSQL_NUM);
 	$reg_encontrados =  $arr_num_reg[0];	
 	if ($reg_encontrados == 0){	//SI NO EXISTE EL HALLAZGO, CREA EL REGISTRO EN LA BASE DE DATOS			//echo $query_sql_add;
-		$query_sql_add = "insert into control_de_pendientes (tipo_pendiente,tramo,usuario,observacion,registro_longitud,registro_latitud,registro_exactitud,estado,id_envio,fecha_registro) values ('$tipo_pendiente','$tramo','$usuario','$observacion',$registro_longitud,$registro_latitud,$registro_exactitud,'$estado','$id_envio','$fecha_registro')"; //echo "$query_sql<br>";	
-		pg_query($cx,$query_sql_add) or die('No pudo conectarse '); 
+		$query_sql_add = "insert into control_de_pendientes (tipo_pendiente,tramo,constructor,usuario,observacion,registro_longitud,registro_latitud,registro_exactitud,estado,id_envio,fecha_registro) values ('$tipo_pendiente','$tramo','$constructor','$usuario','$observacion',$registro_longitud,$registro_latitud,$registro_exactitud,'$estado','$id_envio','$fecha_registro')"; //echo "$query_sql<br>";	
+		pg_query($cx,$query_sql_add) or die(pg_last_error()); 
 		unset($query_sql_add);
 		pg_query($cx, "COMMIT;"); 
 	}
 	else{				//echo $query_sql_add;
-		$query_sql_add = "update control_de_pendientes fecha_cierre='$fecha_cierre', usuario_cierre='$usuario', observacion_cierre='$observacion_cierre', estado='$estado' where id_envio like '$id_envio'"; //echo "$query_sql<br>";		
-		pg_query($cx,$query_sql_add) or die('No pudo conectarse '); 
-		unset($query_sql_add);
-		pg_query($cx, "COMMIT;");
-        echo $tipo_pendiente;		
+		if ($estado == "CERRADO"){
+			$query_sql_add = "update control_de_pendientes set fecha_cierre='$fecha_cierre', usuario_cierre='$usuario', observacion_cierre='$observacion_cierre', estado='$estado' where id_envio = '$id_envio' and tipo_pendiente = '$tipo_pendiente'"; echo "$query_sql_add;<br>";		
+			pg_query($cx,$query_sql_add) or die(pg_last_error()); 
+			unset($query_sql_add);
+			pg_query($cx, "COMMIT;");
+			echo $tipo_pendiente;
+		}
 	}
-	pg_close($cx);
+	pg_close($cx); 
 }
 ?>
