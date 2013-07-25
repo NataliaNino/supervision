@@ -5,7 +5,7 @@ require_once("conexion.php"); ?>
 
 <?php
 if ($_POST['tabla'] == "lista_chequeo"){				/*	echo "Tabla: ".$_POST['tabla']."   Cod Env&iacute;o: ".$_POST['id']."   Tramo: ".$_POST['tramo']."   constructor: ".$_POST['constructor']."   fecha_supervision: ".$_POST['fecha_supervision']."   usuario: ".$_POST['usuario']."   item: ".$_POST['item']."   respuesta: ".$_POST['respuesta']."   observacion: ".$_POST['observacion']."<br>"; */
-/*	$id_envio = $_POST['id'];
+	$id_envio = $_POST['id'];
 	$item = $_POST['item'];
 	$tramo = $_POST['tramo'];
 	$constructor = $_POST['constructor'];
@@ -40,7 +40,6 @@ if ($_POST['tabla'] == "lista_chequeo"){				/*	echo "Tabla: ".$_POST['tabla']." 
 		pg_query($cx,$query_sql_rt) or die(pg_last_error()); 
 	}
 	echo $item;
-<<<<<<< HEAD
 	pg_close($cx); 
 }elseif ($_POST['tabla'] == "avance_obra"){		//AVANCE DE OBRA	AVANCE DE OBRA	AVANCE DE OBRA	AVANCE DE OBRA	AVANCE DE OBRA	AVANCE DE OBRA
 	$id_envio = $_POST['id'];
@@ -76,9 +75,6 @@ if ($_POST['tabla'] == "lista_chequeo"){				/*	echo "Tabla: ".$_POST['tabla']." 
 	}
 	pg_close($cx); 
 	/*$nombre_fichero = '/path/to/foo.txt';
-=======
-	pg_close($cx); */
->>>>>>> 6d36f3ca4cb201850ed40389f298e0a253e8e73f
 
 if (file_exists($nombre_fichero)) {
     echo "El fichero $nombre_fichero existe";
