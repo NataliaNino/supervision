@@ -40,7 +40,7 @@ if ($_POST['tabla'] == "lista_chequeo"){				/*	echo "Tabla: ".$_POST['tabla']." 
 		pg_query($cx,$query_sql_rt) or die(pg_last_error()); 
 	}
 	echo $item;
-	pg_close($cx); 
+	pg_close($cx);
 }elseif ($_POST['tabla'] == "avance_obra"){		//AVANCE DE OBRA	AVANCE DE OBRA	AVANCE DE OBRA	AVANCE DE OBRA	AVANCE DE OBRA	AVANCE DE OBRA
 	$id_envio = $_POST['id'];
 	$tramo = $_POST['tramo'];

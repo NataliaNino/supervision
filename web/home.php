@@ -8,8 +8,6 @@ require_once("./php/conexion.php"); ?>
 <head>
 
 <!-----SLIDING MENU PANEL----->
-<!-----BY: AMIT JAKHU----->
-<!-----WWW.AMITJAKHU.COM----->
 
 <!-----META----->
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -19,6 +17,7 @@ require_once("./php/conexion.php"); ?>
 <link href="css/style_panel.css" rel="stylesheet" type="text/css" />
 <!-----STYLESHEETS----- ACORDEON -->
         <link rel="stylesheet" type="text/css" href="css/style_acordeon.css" />
+        <link rel="stylesheet" type="text/css" href="css/estilo_boton.css" />
 		
 
 <!-----SCRIPTS----->
@@ -47,13 +46,15 @@ $(document).ready(function() {
 
 <!-----SLIDING MENU PANEL----->
 <div id="menu">
-	
         <div class="container">
-
-
 			<section class="ac-container">
+<!--				<div>
+					<input id="ac-1" name="accordion-1" type="radio" checked/>
+					<label for="ac-1">SUPERVISI&Oacute;N FIBRA &Oacute;PTICA</label>
+					Aplicacativo de administración de supervision de fibra optica<br><br>
+				</div>  -->
 				<div>
-					<input id="ac-1" name="accordion-1" type="radio" checked />
+					<input id="ac-1" name="accordion-1" type="radio" />
 					<label for="ac-1">Seguimiento Cronograma</label>
 					<article class="ac-small"><div id="ejecuta_php"></div>
 					Seleccione el Grupo:&nbsp;&nbsp;
@@ -63,34 +64,39 @@ $(document).ready(function() {
 					</select>	
 					<br>Seleccione el Departamento:<br><select id="opt_depto"></select>
 					<br>Seleccione el Tramo:<br><select id="opt_tramo"></select>
+					<br><a class="button medium blue" id="btn_grdar_seguimiento">Consultar</a>
 					</article>
 				</div>
 				<div>
 					<input id="ac-2" name="accordion-1" type="radio" />
 					<label for="ac-2">Avance de Obra</label>
-					<article class="ac-medium">
-						<p>Like you, I used to think the world was this great place where everybody lived by the same standards I did, then some kid with a nail showed me I was living in his world, a world where chaos rules not order, a world where righteousness is not rewarded. That's Cesar's world, and if you're not willing to play by his rules, then you're gonna have to pay the price. </p>
-					</article>
+
 				</div>
 				<div>
 					<input id="ac-3" name="accordion-1" type="radio" />
 					<label for="ac-3">Servidumbres</label>
-					<article class="ac-large">
-						<p>You think water moves fast? You should see ice. It moves like it has a mind. Like it knows it killed the world once and got a taste for murder. After the avalanche, it took us a week to climb out. Now, I don't know exactly when we turned on each other, but I know that seven of us survived the slide... and only five made it out. Now we took an oath, that I'm breaking now. We said we'd say it was the snow that killed the other two, but it wasn't. Nature is lethal but it doesn't hold a candle to man. </p>
-					</article>
+
 				</div>
 				<div>
 					<input id="ac-4" name="accordion-1" type="radio" />
-					<label for="ac-4">Control Pendientes</label>
-					<article class="ac-large">
-						<p>You see? It's curious. Ted did figure it out - time travel. And when we get back, we gonna tell everyone. How it's possible, how it's done, what the dangers are. But then why fifty years in the future when the spacecraft encounters a black hole does the computer call it an 'unknown entry event'? Why don't they know? If they don't know, that means we never told anyone. And if we never told anyone it means we never made it back. Hence we die down here. Just as a matter of deductive logic. </p>
-					</article>
+					<label for="ac-4">Servidumbres</label>
+
 				</div>
 				<div>
 					<input id="ac-5" name="accordion-1" type="radio" />
-					<label for="ac-5">Hallazgos</label>
+					<label for="ac-5">Control Pendientes</label>
+					<article class="ac-small"><div id="ejecuta_cp_php"></div>
+					Seleccione el CONSTRUCTOR:&nbsp;&nbsp;
+					<select id="opt_cp_constructor"></select>	
+					<br><a class="button medium blue" id="btn_cons_cp">Consulta Pendientes</a>
+					<br><a class="button medium blue" id="btn_cons_cp_prom">Consulta Tiempo Promedio</a>
+					</article>
+				</div>
+				<div>
+					<input id="ac-6" name="accordion-1" type="radio" />
+					<label for="ac-6">Hallazgos</label>
 					<article class="ac-large">
-						<p>You see? It's curious. Ted did figure it out - time travel. And when we get back, we gonna tell everyone. How it's possible, how it's done, what the dangers are. But then why fifty years in the future when the spacecraft encounters a black hole does the computer call it an 'unknown entry event'? Why don't they know? If they don't know, that means we never told anyone. And if we never told anyone it means we never made it back. Hence we die down here. Just as a matter of deductive logic. </p>
+						
 					</article>
 				</div>
 			</section>
@@ -100,9 +106,7 @@ $(document).ready(function() {
 <!-----END SLIDING MENU PANEL----->
 
 <!-----DEMO ONLY----->
-<div class="wrapper">
-
-</div>
+<div  id="centro" align="center" ></div>
 
 <div class="footer">
 	

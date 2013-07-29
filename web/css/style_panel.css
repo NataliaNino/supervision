@@ -27,7 +27,7 @@
 }
 
 body {
-	background: #d3d7dc;
+	background: #EAEBFF;
 	font: normal 400 14px/21px 'Source Sans Pro', Helvetica, Arial, sans-serif;
 	color: #464851;
 }
@@ -145,7 +145,7 @@ strong {
 	left: 0; /* Change to right: 0; if you want the panel to display on the right side. */
 }
 
-#menu:hover, #menu:focus {
+#menu:hover, #menu:focus, #menu:active {
 	left: 0 !important; /* Change to right: 0 !important; if you want the panel to display on the right side. */
 }
 
@@ -187,6 +187,12 @@ strong {
 
 #menu nav a:hover {
 	color: #ec6912;
+}
+
+#centro{
+    left: 3%;
+    position: relative;
+    width: 95%;
 }
 
 /*****END PANEL*****/
