@@ -22,6 +22,11 @@ require_once("./php/conexion.php"); ?>
 
 <!-----SCRIPTS----->
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<link rel="stylesheet" href="css/estilo_fecha.css" />
 <!-----SCRIPTS ACORDEON----->
 <script type="text/javascript" src="js/modernizr.custom.29473.js"></script>
 <script type="text/javascript" src="js/home.js"></script>
@@ -36,10 +41,34 @@ $(document).ready(function() {
 <!-----SLIDING PANEL DELAY AND HIDE----->
 <script type="text/javascript">
 $(document).ready(function() {
-    setTimeout( function(){$('#menu').css('left','-330px');},4000); <!-- Change 'left' to 'right' for panel to appear to the right -->
+    setTimeout( function(){$('#menu').css('left','-330px');},2000); <!-- Change 'left' to 'right' for panel to appear to the right -->
 });
 </script>
+  <script>
+  $(function() {
+  	$.datepicker.regional['es'] = {
+		closeText: 'Cerrar',
 
+		currentText: 'Hoy',
+		monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+		'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+		monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+		'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+		dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+		dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié;', 'Juv', 'Vie', 'Sáb'],
+		dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+		weekHeader: 'Sm',
+		dateFormat: 'yy-mm-dd',
+		firstDay: 1,
+		isRTL: false,
+		showMonthAfterYear: false,
+		yearSuffix: ''
+	};
+$.datepicker.setDefaults($.datepicker.regional['es']);
+    $( "#f_inicio" ).datepicker();
+    $( "#f_final" ).datepicker();
+  });
+  </script>
 </head>
 
 <body>
@@ -97,6 +126,15 @@ $(document).ready(function() {
 					<label for="ac-6">Hallazgos</label>
 					<article class="ac-large">
 						
+					</article>
+				</div>
+				<div>
+					<input id="ac-7" name="accordion-1" type="radio" />
+					<label for="ac-7">Control Envío</label>
+					<article class="ac-large">
+						Fecha Inicio: <input type="text" id="f_inicio" style="display: block;background: #E3E3E3;"/>
+					  	Fecha Final: <input type="text" id="f_final" style="display: block;background: #E3E3E3;"/>
+						<br><a class="button medium blue" id="btn_cons_envios">Consulta Envíos</a>
 					</article>
 				</div>
 			</section>

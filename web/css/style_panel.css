@@ -134,7 +134,7 @@ strong {
 	width: 300px;
 	padding: 25px;
 	position: fixed;
-	z-index: 100000;
+	z-index: -10000;
 	
 	box-shadow: 1px 0 3px rgba(0,0,0,0.25);
 	-moz-box-shadow: 1px 0 3px rgba(0,0,0,0.25);

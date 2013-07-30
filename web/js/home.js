@@ -58,4 +58,28 @@ $(document).ready(function(){
 	$("#btn_cons_cp_prom").click(function () {
 		$("#centro").load('./php/gr_pendientes_constructor_dias.php');
 	});
+
+	$('#f_inicio').focus(function() {
+		$('#menu').css('left','0px');
+	});
+
+	$('#f_final').focus(function() {
+		$('#menu').css('left','0px');
+	});
+	$("#btn_cons_envios").click(function () {
+		var fecha_ini = $("#f_inicio").val(); //alert(fecha_ini);
+		var fecha_fin = $("#f_final").val();
+		if(fecha_ini=="" || fecha_ini==null){
+				alert("Seleccione una fecha de Inicio!");
+				$("#f_inicio").focus();
+				return false;
+		}
+		if(fecha_fin== "" || fecha_fin==null){
+				alert("Seleccione una fecha Final!");
+				$("#f_final").focus();
+				return false;
+		}		
+		$('#menu').css('left','-330px');
+	});	
+	btn_cons_envios
 });
