@@ -123,7 +123,7 @@ if (file_exists($nombre_fichero)) {
 	$arr_num_reg = pg_fetch_array($resultado2, 0, PGSQL_NUM);
 	$reg_encontrados =  $arr_num_reg[0];	
 	if ($reg_encontrados == 0){	//SI NO EXISTE EL HALLAZGO, CREA EL REGISTRO EN LA BASE DE DATOS			//echo $query_sql_add;
-		$query_sql_add = "insert into control_hallazgos (id_item,tramo,usuario,observacion,registro_longitud,registro_latitud,registro_exactitud,estado,id_envio,fecha_registro) values ('$id_item','$tramo','$usuario','$observacion',$registro_longitud,$registro_latitud,$registro_exactitud,'$estado','$id_envio','$fecha_registro')"; //echo "$query_sql<br>";	
+		$query_sql_add = "insert into control_hallazgos (id_item,tramo,usuario,observacion,registro_longitud,registro_latitud,registro_exactitud,estado,id_envio,fecha_registro,fechasis) values ('$id_item','$tramo','$usuario','$observacion',$registro_longitud,$registro_latitud,$registro_exactitud,'$estado','$id_envio','$fecha_registro',now())"; //echo "$query_sql<br>";	
 		pg_query($cx,$query_sql_add) or die(pg_last_error()); 
 		unset($query_sql_add);
 		pg_query($cx, "COMMIT;"); 
