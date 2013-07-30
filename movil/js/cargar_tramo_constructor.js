@@ -30,7 +30,7 @@ Cargar_lista();
 $(document).ready(function(){
 	$("#btn_ingresar").click(function () {			//alert("li Click");
 		var id_constructor = $("#constructor").val();	//alert("COns: "+id_constructor);
-		if (id_constructor == 0){
+		if (id_constructor == 0 || id_constructor == null){
 			alert("Seleccione el Tramo - constructor por favor!");
 			$("#constructor").focus();
 			return;
