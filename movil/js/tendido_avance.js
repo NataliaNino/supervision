@@ -4,6 +4,7 @@ var nombre_constructor = sessionStorage.getItem("nom_constructor");
  var id_usuario = sessionStorage.getItem("id");
  var id_tramo = sessionStorage.getItem("id_tramo");
  var id_constructor = sessionStorage.getItem("id_constructor");
+ var id_evento = sessionStorage.getItem("id_evento");
 var i=0;
 
  $("#n_constructor").html("<strong>Constructor: "+nombre_constructor+"</strong>");
@@ -18,9 +19,9 @@ function successCB() {
     //alert("Ok!");
 }
 
-function TBLavance_obra(tx) {//Si no existe crea la talba avance_obra
-	//tx.executeSql('DROP TABLE IF EXISTS avance_obra');		
-	tx.executeSql('CREATE TABLE IF NOT EXISTS avance_obra (id_unico TEXT, tramo TEXT,constructor TEXT, supervisor TEXT, nro_hilos TEXT, span TEXT, abscisa_inicial TEXT, abscisa_final TEXT,km_instalados TEXT, km_detallados TEXT, km_supervisados TEXT,fecha_registro TEXT, latitud TEXT, longitud TEXT, exactitud TEXT, foto TEXT)');
+function TBLavance_obra(tx) {//Si no existe crea la talba avance_obra 
+	tx.executeSql('DROP TABLE IF EXISTS avance_obra');		
+	tx.executeSql('CREATE TABLE IF NOT EXISTS avance_obra (id_unico TEXT, tramo TEXT,constructor TEXT, supervisor TEXT, nro_hilos TEXT, span TEXT, abscisa_inicial TEXT, abscisa_final TEXT,km_instalados TEXT, km_detallados TEXT, km_supervisados TEXT,fecha_registro TEXT, latitud TEXT, longitud TEXT, exactitud TEXT, foto TEXT,id_evento TEXT)');
 }
 
 db.transaction(TBLavance_obra);
@@ -61,7 +62,7 @@ function insert_avance(tx){ //alert('insertar');
 			var id_unico = fecha_captura+'-'+id_tramo+'-'+id_constructor;
 			//alert(hilos);
 			//alert('INSERT INTO avance_obra (id_unico,tramo,constructor,supervisor,nro_hilos,span,abscisa_inicial,abscisa_final,km_instalados,km_supervisados,km_detallados,fecha_registro, latitud, longitud, exactitud, foto) values ("'+id_unico+'","'+id_tramo+'","'+id_constructor+'","'+id_usuario+'","'+hilos+'","'+span+'","'+abs_inicial+'","'+abs_final+'","'+instalados+'","'+supervisados+'","'+detallados+'","'+fecha_captura+'","'+myLatitud+'","'+myLongitud+'","'+myPrecision+'","'+imagenfo+'")');
-			tx.executeSql('INSERT INTO avance_obra (id_unico,tramo,constructor,supervisor,nro_hilos,span,abscisa_inicial,abscisa_final,km_instalados,km_supervisados,km_detallados,fecha_registro, latitud, longitud, exactitud, foto) values ("'+id_unico+'","'+id_tramo+'","'+id_constructor+'","'+id_usuario+'","'+hilos+'","'+span+'","'+abs_inicial+'","'+abs_final+'","'+instalados+'","'+supervisados+'","'+detallados+'","'+fecha_captura+'","'+myLatitud+'","'+myLongitud+'","'+myPrecision+'","'+imagenfo+'")');
+			tx.executeSql('INSERT INTO avance_obra (id_unico,tramo,constructor,supervisor,nro_hilos,span,abscisa_inicial,abscisa_final,km_instalados,km_supervisados,km_detallados,fecha_registro, latitud, longitud, exactitud, foto,id_evento) values ("'+id_unico+'","'+id_tramo+'","'+id_constructor+'","'+id_usuario+'","'+hilos+'","'+span+'","'+abs_inicial+'","'+abs_final+'","'+instalados+'","'+supervisados+'","'+detallados+'","'+fecha_captura+'","'+myLatitud+'","'+myLongitud+'","'+myPrecision+'","'+imagenfo+'","'+id_evento+'")');
 			alert("Información almacenada exitosamente");			//alert("Editar el menu");
 			window.location = "Tendido.html"; 
 		}

@@ -43,20 +43,23 @@ if ($_POST['tabla'] == "lista_chequeo"){				/*	echo "Tabla: ".$_POST['tabla']." 
 	pg_close($cx);
 }elseif ($_POST['tabla'] == "avance_obra"){		//AVANCE DE OBRA	AVANCE DE OBRA	AVANCE DE OBRA	AVANCE DE OBRA	AVANCE DE OBRA	AVANCE DE OBRA
 	$id_envio = $_POST['id'];
+	$id_evento = $_POST['id_evento'];
 	$tramo = $_POST['tramo'];
-	$constructor = $_POST['constructor'];
-	$usuario = $_POST['usuario'];
+	$fecha_registro = $_POST['fecha_registro'];
 	$nro_hilos = $_POST['nro_hilos'];
+	$spam = $_POST['span'];
 	$abscisa_inicial = $_POST['abscisa_inicial'];
 	$abscisa_final = $_POST['abscisa_final'];
 	$km_instalados = $_POST['km_instalados'];
 	$km_detallados = $_POST['km_detallados'];
 	$km_supervisados = $_POST['km_supervisados'];
-	$fecha_registro = $_POST['fecha_registro'];
 	$longitud = $_POST['longitud'];							if($longitud == "" or $longitud == "undefined") {$longitud='null';}
 	$latitud = $_POST['latitud'];							if($latitud == "" or $latitud == "undefined") {$latitud='null';}
 	$exactitud = $_POST['exactitud'];						if($exactitud == "" or $exactitud == "undefined") {$exactitud='null';}
+	$observacion = $_POST['observacion'];
+	$usuario = $_POST['usuario'];
 	$foto = $_POST['foto'];
+	$constructor = $_POST['constructor'];
 		if (isset($foto)){
 			$decoded=base64_decode($foto);
 			file_put_contents('fotos/Avance_obra.JPG',$decoded);
@@ -67,11 +70,12 @@ if ($_POST['tabla'] == "lista_chequeo"){				/*	echo "Tabla: ".$_POST['tabla']." 
 	$arr_num_reg = pg_fetch_array($resultado2, 0, PGSQL_NUM);
 	$reg_encontrados =  $arr_num_reg[0];	
 	if ($reg_encontrados == 0){	//SI NO EXISTE REGISTRO DE AVANCE DE OBRA, CREA LA TUPLA EN LA BASE DE DATOS			//echo $query_sql_add;
-		/*$query_sql_add = "insert into control_hallazgos (id_item,tramo,usuario,observacion,registro_longitud,registro_latitud,registro_exactitud,estado,id_envio,fecha_registro) values ('$id_item','$tramo','$usuario','$observacion',$registro_longitud,$registro_latitud,$registro_exactitud,'$estado','$id_envio','$fecha_registro')"; //echo "$query_sql<br>";	
+		$query_sql_add = "insert into avance_obra (id_evento,tramo,fecha_registro,nro_hilos,spam,abscisa_inicial,abscisa_final,km_instalados,km_detallados,km_supervisados,longitud,latitud,exactitud,observacion,usuario,fecha_digitacion,id_envio,constructor) values 
+		('$id_evento','$tramo','$fecha_registro','$nro_hilos','$spam','$abscisa_inicial','$abscisa_final','$km_instalados','$km_detallados','$km_supervisados',$longitud,$latitud,$exactitud,'$observacion','$usuario',now(),'$id_envio','$id_envio','$constructor')"; //echo "$query_sql<br>";
 		pg_query($cx,$query_sql_add) or die(pg_last_error()); 
 		unset($query_sql_add);
 		pg_query($cx, "COMMIT;");
-		echo $id_item;*/
+		echo $id_envio;
 	}
 	pg_close($cx); 
 	/*$nombre_fichero = '/path/to/foo.txt';

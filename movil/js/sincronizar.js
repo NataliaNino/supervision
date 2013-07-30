@@ -1,5 +1,6 @@
 /**
- * @author juan.garzon 2013-JUN-20		errorCB_Avance
+ * @author juan.garzon 2013-JUN-20
+ * @Mod juan.garzon 2013-JUL-20		
  */
 	var nombre_supervisor = sessionStorage.getItem("nombre");
  	var nombre_tramo = sessionStorage.getItem("nom_tramo");
@@ -118,6 +119,7 @@ function ConsultaSincronizarAvanceCarga(tx, results) {
 		parametros['longitud'] = results.rows.item(i).longitud;	//alert(results.rows.item(i).registro_longitud);
 		parametros['exactitud'] = results.rows.item(i).exactitud;
 		parametros['foto'] = results.rows.item(i).foto;			//alert(results.rows.item(i).foto_registro);
+		parametros['id_evento'] = results.rows.item(i).id_evento;
 		
 		var id_guardar = results.rows.item(i).id_unico;
 		$.ajax({
